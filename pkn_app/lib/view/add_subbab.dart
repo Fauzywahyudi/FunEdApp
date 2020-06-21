@@ -64,50 +64,52 @@ class _AddSubBabState extends State<AddSubBab> {
             borderRadius: BorderRadius.circular(20.0),
             color: Colors.white,
           ),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
-              SizedBox(height: 20.0),
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 10),
-                child: Material(
-                  color: Colors.deepPurple.withOpacity(0.5),
-                  borderRadius: BorderRadius.all(Radius.circular(10)),
-                  child: TextField(
-                      maxLines: 3,
-                      minLines: 1,
-                      controller: tecNamaSubBab,
-                      onChanged: (String value) {},
-                      cursorColor: Colors.deepPurple,
-                      textCapitalization: TextCapitalization.words,
-                      decoration: InputDecoration(
-                          hintText: "Nama Sub-Bab",
-                          border: InputBorder.none,
-                          contentPadding: EdgeInsets.symmetric(
-                              horizontal: 10, vertical: 13))),
-                ),
-              ),
-              SizedBox(height: 10.0),
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 10),
-                child: Material(
-                  color: Colors.deepPurple.withOpacity(0.5),
-                  borderRadius: BorderRadius.all(Radius.circular(10)),
-                  child: TextField(
-                    controller: tecIsiSubBab,
-                    maxLines: 20,
-                    minLines: 10,
-                    onChanged: (String value) {},
-                    cursorColor: Colors.deepPurple,
-                    decoration: InputDecoration(
-                        hintText: "Isi Sub-Bab",
-                        border: InputBorder.none,
-                        contentPadding:
-                            EdgeInsets.symmetric(horizontal: 10, vertical: 13)),
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                SizedBox(height: 20.0),
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 10),
+                  child: Material(
+                    color: Colors.deepPurple.withOpacity(0.5),
+                    borderRadius: BorderRadius.all(Radius.circular(10)),
+                    child: TextField(
+                        maxLines: 3,
+                        minLines: 1,
+                        controller: tecNamaSubBab,
+                        onChanged: (String value) {},
+                        cursorColor: Colors.deepPurple,
+                        textCapitalization: TextCapitalization.words,
+                        decoration: InputDecoration(
+                            hintText: "Nama Sub-Bab",
+                            border: InputBorder.none,
+                            contentPadding: EdgeInsets.symmetric(
+                                horizontal: 10, vertical: 13))),
                   ),
                 ),
-              ),
-            ],
+                SizedBox(height: 10.0),
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 10),
+                  child: Material(
+                    color: Colors.deepPurple.withOpacity(0.5),
+                    borderRadius: BorderRadius.all(Radius.circular(10)),
+                    child: TextField(
+                      controller: tecIsiSubBab,
+                      maxLines: 30,
+                      minLines: 15,
+                      onChanged: (String value) {},
+                      cursorColor: Colors.deepPurple,
+                      decoration: InputDecoration(
+                          hintText: "Isi Sub-Bab",
+                          border: InputBorder.none,
+                          contentPadding: EdgeInsets.symmetric(
+                              horizontal: 10, vertical: 13)),
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),

@@ -104,6 +104,7 @@ class _SubBabDescrState extends State<SubBabDescr> {
     return AppBar(
       leading: IconButton(
           icon: Icon(Icons.close),
+          tooltip: "Cencel",
           onPressed: () {
             setState(() {
               isEditing = false;
@@ -143,7 +144,7 @@ class _SubBabDescrState extends State<SubBabDescr> {
                 child: TextField(
                   controller: tecIsiSubBab,
                   maxLines: 30,
-                  minLines: 30,
+                  minLines: 15,
                   textAlign: TextAlign.justify,
                   style: TextStyle(fontSize: 15),
                   onChanged: (String value) {},

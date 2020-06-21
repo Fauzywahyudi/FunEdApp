@@ -177,6 +177,11 @@ class _MateriViewState extends State<MateriView> {
 
   Future<List> getData() async {
     final result = await http.post(url.Url.home + "getBab.php");
+    if(mounted){
+      setState(() {
+        
+      });
+    }
     return json.decode(result.body);
   }
 
