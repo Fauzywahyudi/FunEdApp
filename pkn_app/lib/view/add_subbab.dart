@@ -74,18 +74,17 @@ class _AddSubBabState extends State<AddSubBab> {
                   color: Colors.deepPurple.withOpacity(0.5),
                   borderRadius: BorderRadius.all(Radius.circular(10)),
                   child: TextField(
-                    maxLines: 3,
-                    minLines: 1,
-                    controller: tecNamaSubBab,
-                    onChanged: (String value) {},
-                    cursorColor: Colors.deepPurple,
-                    textCapitalization: TextCapitalization.words,
-                    decoration: InputDecoration(
-                        hintText: "Nama Sub-Bab",
-                        border: InputBorder.none,
-                        contentPadding:
-                            EdgeInsets.symmetric(horizontal: 10, vertical: 13)),
-                  ),
+                      maxLines: 3,
+                      minLines: 1,
+                      controller: tecNamaSubBab,
+                      onChanged: (String value) {},
+                      cursorColor: Colors.deepPurple,
+                      textCapitalization: TextCapitalization.words,
+                      decoration: InputDecoration(
+                          hintText: "Nama Sub-Bab",
+                          border: InputBorder.none,
+                          contentPadding: EdgeInsets.symmetric(
+                              horizontal: 10, vertical: 13))),
                 ),
               ),
               SizedBox(height: 10.0),

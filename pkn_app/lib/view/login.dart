@@ -79,12 +79,12 @@ class _LoginPageState extends State<LoginPage> {
                 onChanged: (String value){},
                 cursorColor: Colors.deepOrange,
                 decoration: InputDecoration(
-                    hintText: "Email",
+                    hintText: "Username",
                     prefixIcon: Material(
                       elevation: 0,
                       borderRadius: BorderRadius.all(Radius.circular(30)),
                       child: Icon(
-                        Icons.email,
+                        Icons.person,
                         color: Colors.deepPurple,
                       ),
                     ),

@@ -6,6 +6,7 @@ import 'package:pkn_app/assets/assets.dart';
 import 'package:http/http.dart' as http;
 import 'package:pkn_app/server/url.dart' as url;
 import 'package:pkn_app/view/add_subbab.dart';
+import 'package:pkn_app/view/subbab.dart';
 
 class BabDescrib extends StatefulWidget {
   final data;
@@ -77,7 +78,7 @@ class _BabDescribState extends State<BabDescrib> {
       onTap: () => Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => BabDescrib(
+            builder: (context) => SubBabDescr(
               data: data,
             ),
           )),
@@ -171,6 +172,10 @@ class _BabDescribState extends State<BabDescrib> {
     final result = await http.post(url.Url.home + "getSubBab.php",body: {
       "id_bab" : widget.data['id_bab'],
     });
+    if(mounted){
+      setState(() {
+      });
+    }
     return json.decode(result.body);
   }
 
