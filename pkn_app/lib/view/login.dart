@@ -7,7 +7,6 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  String pathImage = "assets/images/login.png";
   @override
   Widget build(BuildContext context) {
     return Scaffold(

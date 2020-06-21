@@ -13,7 +13,10 @@ class MateriView extends StatefulWidget {
 }
 
 class _MateriViewState extends State<MateriView> {
-  // static final String path = "lib/src/pages/todo/todo_home3.dart";
+  TextEditingController tecNamaBab = TextEditingController();
+  TextEditingController tecNoBab = TextEditingController();
+  TextStyle titleStyle = TextStyle(
+      fontSize: 20.0, color: Colors.black, fontWeight: FontWeight.bold);
 
   @override
   void initState() {
@@ -80,9 +83,16 @@ class _MateriViewState extends State<MateriView> {
 
   Widget _buildBab(var data) {
     return InkWell(
-      onTap: ()=>Navigator.push(context, MaterialPageRoute(builder: (context) => BabDescrib(data: data,),)),
+      onTap: () => Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => BabDescrib(
+              data: data,
+            ),
+          )),
+      onLongPress: () {},
       borderRadius: BorderRadius.circular(20.0),
-          child: Container(
+      child: Container(
         decoration: BoxDecoration(
           color: Colors.deepOrange,
           boxShadow: [
@@ -136,11 +146,15 @@ class _MateriViewState extends State<MateriView> {
                       ),
                     ),
                     Container(
-                      padding: EdgeInsets.symmetric(vertical: 26,horizontal: 15),
-                      child: Text(data['nama_bab'],style: TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                    ),),
+                      padding:
+                          EdgeInsets.symmetric(vertical: 26, horizontal: 15),
+                      child: Text(
+                        data['nama_bab'],
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
                     )
                   ],
                 ),
@@ -156,10 +170,7 @@ class _MateriViewState extends State<MateriView> {
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        return CustomAlertDialog(
-          title: "Tambah Bab",
-          content: "\"Nama Bab\" tidak boleh kosong",
-        );
+        return _buildDialog();
       },
     );
   }
@@ -168,27 +179,8 @@ class _MateriViewState extends State<MateriView> {
     final result = await http.post(url.Url.home + "getBab.php");
     return json.decode(result.body);
   }
-}
 
-class CustomAlertDialog extends StatelessWidget {
-  final String title;
-  final String content;
-  final String buttonLabel;
-  final TextStyle titleStyle = TextStyle(
-      fontSize: 20.0, color: Colors.black, fontWeight: FontWeight.bold);
-
-  CustomAlertDialog(
-      {Key key,
-      this.title = "Successful",
-      @required this.content,
-      this.buttonLabel = "Ok"})
-      : super(key: key);
-
-  TextEditingController tecNamaBab = TextEditingController();
-  TextEditingController tecNoBab = TextEditingController();
-
-  @override
-  Widget build(BuildContext context) {
+  Widget _buildDialog() {
     return Material(
         type: MaterialType.transparency,
         child: Container(
@@ -214,7 +206,7 @@ class CustomAlertDialog extends StatelessWidget {
                     const SizedBox(width: 10.0),
                     Expanded(
                       child: Text(
-                        title,
+                        "Tambah Bab",
                         style: titleStyle,
                         textAlign: TextAlign.left,
                       ),
@@ -279,7 +271,6 @@ class CustomAlertDialog extends StatelessWidget {
                         child: Text("Oke"),
                         onPressed: () async {
                           await save(tecNoBab.text, tecNamaBab.text);
-                          Navigator.pop(context);
                         },
                       ),
                     ),
@@ -294,5 +285,9 @@ class CustomAlertDialog extends StatelessWidget {
   Future save(String bab, String nama) async {
     await http.post(url.Url.home + "addBab.php",
         body: {"bab": bab, "nama_bab": nama});
+    Navigator.pop(context);
+    tecNamaBab.text="";
+    tecNoBab.text="";
+    setState(() {});
   }
 }
