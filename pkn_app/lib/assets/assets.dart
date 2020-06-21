@@ -1,0 +1,1 @@
+export 'package:pkn_app/assets/icon.dart';
