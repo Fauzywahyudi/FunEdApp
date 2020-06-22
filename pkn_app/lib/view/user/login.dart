@@ -4,12 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:pkn_app/server/url.dart' as url;
 
-class LoginPage extends StatefulWidget {
+class LoginUser extends StatefulWidget {
   @override
-  _LoginPageState createState() => _LoginPageState();
+  _LoginUserState createState() => _LoginUserState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _LoginUserState extends State<LoginUser> {
   TextEditingController tecUsername = TextEditingController();
   TextEditingController tecPassword = TextEditingController();
 
@@ -51,17 +51,23 @@ class _LoginPageState extends State<LoginPage> {
                       SizedBox(
                         height: 40,
                       ),
-                      // Container(child: Image.asset(pathImage),),
+                      Container(
+                        height: 150,
+                        width: 200,
+                        child: Hero(
+                            tag: "logo",
+                            child: Image.asset("assets/images/logo_white.png")),
+                      ),
                       SizedBox(
                         height: 20,
                       ),
-                      Text(
-                        "Login",
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.w700,
-                            fontSize: 30),
-                      ),
+                      // Text(
+                      //   "Login",
+                      //   style: TextStyle(
+                      //       color: Colors.white,
+                      //       fontWeight: FontWeight.w700,
+                      //       fontSize: 30),
+                      // ),
                     ],
                   ),
                   width: double.infinity,
@@ -86,7 +92,7 @@ class _LoginPageState extends State<LoginPage> {
                 onChanged: (String value) {},
                 cursorColor: Colors.deepOrange,
                 decoration: InputDecoration(
-                    hintText: "Username",
+                    hintText: "NIS Siswa",
                     prefixIcon: Material(
                       elevation: 0,
                       borderRadius: BorderRadius.all(Radius.circular(30)),
@@ -176,12 +182,20 @@ class _LoginPageState extends State<LoginPage> {
                     fontSize: 12,
                     fontWeight: FontWeight.normal),
               ),
-              Text("Sign Up ",
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.w500,
-                      fontSize: 12,
-                      decoration: TextDecoration.underline)),
+              InkWell(
+                onTap: (){
+                  Navigator.pushNamed(context, "/Register");
+                },
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text("Sign Up ",
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.w500,
+                          fontSize: 12,
+                          decoration: TextDecoration.underline)),
+                ),
+              ),
             ],
           )
         ],
@@ -195,11 +209,11 @@ class _LoginPageState extends State<LoginPage> {
         "username": tecUsername.text,
         "password": tecPassword.text,
       });
-      String msg = result.body.substring(0,1);
+      String msg = result.body.substring(0, 1);
       List data = json.decode(result.body.substring(1));
-      if (msg=="1") {
+      if (msg == "1") {
         Navigator.pushReplacementNamed(context, "/HomeAdmin");
-      } else if(msg=="0"){
+      } else if (msg == "0") {
         print("Gagal Login");
       }
     } catch (e) {}

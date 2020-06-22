@@ -1,17 +1,24 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:http/http.dart' as http;
 import 'package:pkn_app/server/url.dart' as url;
 
-class LoginPage extends StatefulWidget {
+class Register extends StatefulWidget {
   @override
-  _LoginPageState createState() => _LoginPageState();
+  _RegisterState createState() => _RegisterState();
 }
 
-class _LoginPageState extends State<LoginPage> {
-  TextEditingController tecUsername = TextEditingController();
+class _RegisterState extends State<Register> {
+  TextEditingController tecNisn = TextEditingController();
   TextEditingController tecPassword = TextEditingController();
+  TextEditingController tecNama = TextEditingController();
+  FocusNode focNisn = FocusNode();
+  FocusNode focPassword = FocusNode();
+  FocusNode focNama = FocusNode();
+
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +33,7 @@ class _LoginPageState extends State<LoginPage> {
                 child: Container(
                   child: Column(),
                   width: double.infinity,
-                  height: 300,
+                  height: 220,
                   decoration: BoxDecoration(
                       gradient: LinearGradient(
                           colors: [Colors.deepOrange, Colors.deepPurple])),
@@ -37,7 +44,7 @@ class _LoginPageState extends State<LoginPage> {
                 child: Container(
                   child: Column(),
                   width: double.infinity,
-                  height: 300,
+                  height: 220,
                   decoration: BoxDecoration(
                       gradient: LinearGradient(
                           colors: [Color(0x44ff3a5a), Color(0x44fe494d)])),
@@ -49,23 +56,29 @@ class _LoginPageState extends State<LoginPage> {
                   child: Column(
                     children: <Widget>[
                       SizedBox(
-                        height: 40,
+                        height: 20,
                       ),
-                      // Container(child: Image.asset(pathImage),),
+                      Container(
+                        height: 100,
+                        width: 150,
+                        child: Hero(
+                            tag: "logo",
+                            child: Image.asset("assets/images/logo_white.png")),
+                      ),
                       SizedBox(
                         height: 20,
                       ),
-                      Text(
-                        "Login",
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.w700,
-                            fontSize: 30),
-                      ),
+                      // Text(
+                      //   "Register",
+                      //   style: TextStyle(
+                      //       color: Colors.white,
+                      //       fontWeight: FontWeight.w700,
+                      //       fontSize: 20),
+                      // ),
                     ],
                   ),
                   width: double.infinity,
-                  height: 300,
+                  height: 220,
                   decoration: BoxDecoration(
                       gradient: LinearGradient(
                           colors: [Colors.deepOrange, Colors.red])),
@@ -73,8 +86,17 @@ class _LoginPageState extends State<LoginPage> {
               ),
             ],
           ),
+          Center(
+            child: Text(
+              "Register",
+              style: TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.w700,
+                  fontSize: 20),
+            ),
+          ),
           SizedBox(
-            height: 30,
+            height: 20,
           ),
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 32),
@@ -82,16 +104,23 @@ class _LoginPageState extends State<LoginPage> {
               elevation: 2.0,
               borderRadius: BorderRadius.all(Radius.circular(30)),
               child: TextField(
-                controller: tecUsername,
+                controller: tecNisn,
+                focusNode: focNisn,
+                keyboardType: TextInputType.number,
+                textInputAction: TextInputAction.next,
+                onSubmitted: (v){
+                  FocusScope.of(context).requestFocus(focPassword);
+                },
+                autofocus: true,
                 onChanged: (String value) {},
                 cursorColor: Colors.deepOrange,
                 decoration: InputDecoration(
-                    hintText: "Username",
+                    hintText: "NIS Siswa",
                     prefixIcon: Material(
                       elevation: 0,
                       borderRadius: BorderRadius.all(Radius.circular(30)),
                       child: Icon(
-                        Icons.person,
+                        FontAwesomeIcons.idCard,
                         color: Colors.deepPurple,
                       ),
                     ),
@@ -111,7 +140,12 @@ class _LoginPageState extends State<LoginPage> {
               borderRadius: BorderRadius.all(Radius.circular(30)),
               child: TextField(
                 controller: tecPassword,
+                focusNode: focPassword,
                 obscureText: true,
+                textInputAction: TextInputAction.next,
+                onSubmitted: (v){
+                  FocusScope.of(context).requestFocus(focNama);
+                },
                 onChanged: (String value) {},
                 cursorColor: Colors.deepOrange,
                 decoration: InputDecoration(
@@ -121,6 +155,40 @@ class _LoginPageState extends State<LoginPage> {
                       borderRadius: BorderRadius.all(Radius.circular(30)),
                       child: Icon(
                         Icons.lock,
+                        color: Colors.deepPurple,
+                      ),
+                    ),
+                    border: InputBorder.none,
+                    contentPadding:
+                        EdgeInsets.symmetric(horizontal: 25, vertical: 13)),
+              ),
+            ),
+          ),
+          SizedBox(
+            height: 20,
+          ),
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 32),
+            child: Material(
+              elevation: 2.0,
+              borderRadius: BorderRadius.all(Radius.circular(30)),
+              child: TextField(
+                controller: tecNama,
+                focusNode: focNama,
+                textCapitalization: TextCapitalization.words,
+                textInputAction: TextInputAction.done,
+                onSubmitted: (v){
+                  focNama.unfocus();
+                },
+                onChanged: (String value) {},
+                cursorColor: Colors.deepOrange,
+                decoration: InputDecoration(
+                    hintText: "Nama Siswa",
+                    prefixIcon: Material(
+                      elevation: 0,
+                      borderRadius: BorderRadius.all(Radius.circular(30)),
+                      child: Icon(
+                        Icons.person,
                         color: Colors.deepPurple,
                       ),
                     ),
@@ -142,67 +210,53 @@ class _LoginPageState extends State<LoginPage> {
                 ),
                 child: FlatButton(
                   child: Text(
-                    "Login",
+                    "Register",
                     style: TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.w700,
                         fontSize: 18),
                   ),
-                  onPressed: () => login(),
+                  onPressed: () => register(),
                 ),
               )),
           SizedBox(
             height: 20,
           ),
-          Center(
-            child: Text(
-              "FORGOT PASSWORD ?",
-              style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 12,
-                  fontWeight: FontWeight.w700),
-            ),
-          ),
-          SizedBox(
-            height: 40,
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Text(
-                "Don't have an Account ? ",
-                style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 12,
-                    fontWeight: FontWeight.normal),
-              ),
-              Text("Sign Up ",
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.w500,
-                      fontSize: 12,
-                      decoration: TextDecoration.underline)),
-            ],
-          )
+          // Center(
+          //   child: Text(
+          //     "FORGOT PASSWORD ?",
+          //     style: TextStyle(
+          //         color: Colors.white,
+          //         fontSize: 12,
+          //         fontWeight: FontWeight.w700),
+          //   ),
+          // ),
+          // SizedBox(
+          //   height: 40,
+          // ),
         ],
       ),
     );
   }
 
-  login() async {
+  register() async {
     try {
-      final result = await http.post(url.Url.home + "login.php", body: {
-        "username": tecUsername.text,
-        "password": tecPassword.text,
+      final result = await http.post(url.Url.home + "register.php", body: {
+        "nisn": tecNisn.text,
+        "pass": tecPassword.text,
+        "nama": tecNama.text
       });
-      String msg = result.body.substring(0,1);
+      String msg = result.body.substring(0, 1);
       List data = json.decode(result.body.substring(1));
-      if (msg=="1") {
-        Navigator.pushReplacementNamed(context, "/HomeAdmin");
-      } else if(msg=="0"){
+      if (msg == "1") {
+        
+        Navigator.pop(context);
+      } else if (msg == "0") {
         print("Gagal Login");
       }
-    } catch (e) {}
+    } catch (e) {
+      print(e);
+    }
   }
 }
 

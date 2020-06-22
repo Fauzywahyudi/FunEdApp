@@ -6,6 +6,9 @@ import 'package:pkn_app/view/newHome.dart';
 import 'package:pkn_app/view/pertanyaan/add_pertanyaan.dart';
 import 'package:pkn_app/view/quiz.dart';
 import 'package:pkn_app/view/pertanyaan/pertanyaanView.dart';
+import 'package:pkn_app/view/user/login.dart';
+import 'package:pkn_app/view/user/register.dart';
+import 'package:pkn_app/view/utils/splashscreen.dart';
 
 void main() {
   runApp(MyApp());
@@ -23,15 +26,17 @@ class MyApp extends StatelessWidget {
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
       routes: <String, WidgetBuilder>{
+        '/LoginUser' : (BuildContext context) => new LoginUser(),
+        '/Register' : (BuildContext context) => new Register(),
         '/Login' : (BuildContext context) => new LoginPage(),
-        '/Home' : (BuildContext context) => new QuizHomePage(),
+        '/HomeAdmin' : (BuildContext context) => new QuizHomePage(),
         '/Materi' : (BuildContext context) => new MateriView(),
         '/Quiz' : (BuildContext context) => new QuizView(),
         '/Pertanyaan' : (BuildContext context) => new PertanyaanView(),
         '/AddPertanyaan' : (BuildContext context) => new AddPertanyaan(),
         // '/Tambah_Materi' : (BuildContext context) => new TambahMateri(),
       },
-      home: LoginPage(),
+      home: SplashScreen(),
     );
   }
 }
