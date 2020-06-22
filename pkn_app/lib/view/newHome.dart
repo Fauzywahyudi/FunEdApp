@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:line_awesome_icons/line_awesome_icons.dart';
 import 'category.dart';
 import 'demo_values.dart';
 // import 'quiz_options.dart';
@@ -44,6 +46,13 @@ class _QuizHomePageState extends State<QuizHomePage> {
                 floating: true,
                 pinned: true,
                 snap: false,
+                actions: [
+                  IconButton(icon: Icon(FontAwesomeIcons.powerOff,color: Colors.white,), onPressed: (){
+                    Navigator.pushReplacementNamed(context, '/Login');
+                  },
+                  tooltip: "Logout",                  
+                  ),
+                ],
                 // centerTitle: true,
                 expandedHeight: 100,
                 flexibleSpace: FlexibleSpaceBar(

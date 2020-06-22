@@ -1,12 +1,18 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'package:pkn_app/server/url.dart' as url;
 
 class LoginPage extends StatefulWidget {
-    
   @override
   _LoginPageState createState() => _LoginPageState();
 }
 
 class _LoginPageState extends State<LoginPage> {
+  TextEditingController tecUsername = TextEditingController();
+  TextEditingController tecPassword = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -76,7 +82,8 @@ class _LoginPageState extends State<LoginPage> {
               elevation: 2.0,
               borderRadius: BorderRadius.all(Radius.circular(30)),
               child: TextField(
-                onChanged: (String value){},
+                controller: tecUsername,
+                onChanged: (String value) {},
                 cursorColor: Colors.deepOrange,
                 decoration: InputDecoration(
                     hintText: "Username",
@@ -103,7 +110,9 @@ class _LoginPageState extends State<LoginPage> {
               elevation: 2.0,
               borderRadius: BorderRadius.all(Radius.circular(30)),
               child: TextField(
-                onChanged: (String value){},
+                controller: tecPassword,
+                obscureText: true,
+                onChanged: (String value) {},
                 cursorColor: Colors.deepOrange,
                 decoration: InputDecoration(
                     hintText: "Password",
@@ -128,8 +137,9 @@ class _LoginPageState extends State<LoginPage> {
               padding: EdgeInsets.symmetric(horizontal: 32),
               child: Container(
                 decoration: BoxDecoration(
-                    borderRadius: BorderRadius.all(Radius.circular(100)),
-                    color: Colors.deepOrange,),
+                  borderRadius: BorderRadius.all(Radius.circular(100)),
+                  color: Colors.deepOrange,
+                ),
                 child: FlatButton(
                   child: Text(
                     "Login",
@@ -138,25 +148,61 @@ class _LoginPageState extends State<LoginPage> {
                         fontWeight: FontWeight.w700,
                         fontSize: 18),
                   ),
-                  onPressed: ()=>Navigator.pushReplacementNamed(context, "/home"),
+                  onPressed: () => login(),
                 ),
               )),
-              SizedBox(height: 20,),
-          Center(
-            child: Text("FORGOT PASSWORD ?", style: TextStyle(color:Colors.white,fontSize: 12 ,fontWeight: FontWeight.w700),),
+          SizedBox(
+            height: 20,
           ),
-          SizedBox(height: 40,),
+          Center(
+            child: Text(
+              "FORGOT PASSWORD ?",
+              style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 12,
+                  fontWeight: FontWeight.w700),
+            ),
+          ),
+          SizedBox(
+            height: 40,
+          ),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              Text("Don't have an Account ? ", style: TextStyle(color:Colors.white,fontSize: 12 ,fontWeight: FontWeight.normal),),
-              Text("Sign Up ", style: TextStyle(color:Colors.white, fontWeight: FontWeight.w500,fontSize: 12, decoration: TextDecoration.underline )),
-
+              Text(
+                "Don't have an Account ? ",
+                style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 12,
+                    fontWeight: FontWeight.normal),
+              ),
+              Text("Sign Up ",
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.w500,
+                      fontSize: 12,
+                      decoration: TextDecoration.underline)),
             ],
           )
         ],
       ),
     );
+  }
+
+  login() async {
+    try {
+      final result = await http.post(url.Url.home + "login.php", body: {
+        "username": tecUsername.text,
+        "password": tecPassword.text,
+      });
+      String msg = result.body.substring(0,1);
+      List data = json.decode(result.body.substring(1));
+      if (msg=="1") {
+        Navigator.pushReplacementNamed(context, "/Home");
+      } else if(msg=="0"){
+        print("Gagal Login");
+      }
+    } catch (e) {}
   }
 }
 

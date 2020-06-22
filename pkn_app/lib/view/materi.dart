@@ -63,6 +63,7 @@ class _MateriViewState extends State<MateriView> {
           if (snapshot.hasError) print(snapshot.error);
           return snapshot.hasData
               ? ListView.builder(
+                physics: BouncingScrollPhysics(),
                   itemCount: snapshot.data.length,
                   itemBuilder: (context, index) {
                     return Column(
@@ -166,15 +167,6 @@ class _MateriViewState extends State<MateriView> {
     );
   }
 
-  _customAlertDialog(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return _buildDialog();
-      },
-    );
-  }
-
   Future<List> getData() async {
     final result = await http.post(url.Url.home + "getBab.php");
     if(mounted){
@@ -183,6 +175,15 @@ class _MateriViewState extends State<MateriView> {
       });
     }
     return json.decode(result.body);
+  }
+
+  _customAlertDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return _buildDialog();
+      },
+    );
   }
 
   Widget _buildDialog() {

@@ -6,6 +6,7 @@ import 'package:pkn_app/assets/assets.dart';
 import 'package:http/http.dart' as http;
 import 'package:pkn_app/server/url.dart' as url;
 import 'package:pkn_app/view/pertanyaan/add_pertanyaan.dart';
+import 'package:pkn_app/view/pertanyaan/view_demo.dart';
 
 class PertanyaanView extends StatefulWidget {
   @override
@@ -52,7 +53,7 @@ class _PertanyaanViewState extends State<PertanyaanView> {
                   itemBuilder: (context, index) {
                     return Column(
                       children: [
-                        _buildBab(snapshot.data[index]),
+                        _buildBab(snapshot.data[index],index),
                         SizedBox(
                           height: 5,
                         )
@@ -66,16 +67,16 @@ class _PertanyaanViewState extends State<PertanyaanView> {
     );
   }
 
-  Widget _buildBab(var data) {
+  Widget _buildBab(var data, int index) {
     return InkWell(
-      onTap: () {},
-      // => Navigator.push(
-      //     context,
-      //     MaterialPageRoute(
-      //       builder: (context) => BabDescrib(
-      //         data: data,
-      //       ),
-      //     )),
+      onTap: ()
+      => Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => DemoPertanyaan(
+              data: data,
+            ),
+          )),
       onLongPress: () {},
       borderRadius: BorderRadius.circular(20.0),
       child: Container(
@@ -106,7 +107,8 @@ class _PertanyaanViewState extends State<PertanyaanView> {
                   ),
                   const SizedBox(height: 16.0),
                   Text(
-                    "Bab ${data['bab']}",
+                    "Soal ${index+1}",
+                    textAlign: TextAlign.center,
                     style: TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.bold,
@@ -134,8 +136,8 @@ class _PertanyaanViewState extends State<PertanyaanView> {
                     Container(
                       padding:
                           EdgeInsets.symmetric(vertical: 26, horizontal: 15),
-                      child: Text(
-                        data['nama_bab'],
+                      child: Text("",
+                        // data['nama_bab'],
                         style: TextStyle(
                           color: Colors.white,
                           fontWeight: FontWeight.bold,
@@ -154,7 +156,7 @@ class _PertanyaanViewState extends State<PertanyaanView> {
 
   Future<List> getData() async {
     final result = await http.post(url.Url.home + "getPertanyaan.php");
-    if(mounted){
+    if(!mounted){
       setState(() {
         
       });

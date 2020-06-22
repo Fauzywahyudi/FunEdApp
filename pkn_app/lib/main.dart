@@ -23,7 +23,8 @@ class MyApp extends StatelessWidget {
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
       routes: <String, WidgetBuilder>{
-        '/home' : (BuildContext context) => new QuizHomePage(),
+        '/Login' : (BuildContext context) => new LoginPage(),
+        '/Home' : (BuildContext context) => new QuizHomePage(),
         '/Materi' : (BuildContext context) => new MateriView(),
         '/Quiz' : (BuildContext context) => new QuizView(),
         '/Pertanyaan' : (BuildContext context) => new PertanyaanView(),
