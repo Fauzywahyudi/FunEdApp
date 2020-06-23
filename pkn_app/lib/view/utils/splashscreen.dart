@@ -1,6 +1,7 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
+import 'package:pkn_app/view/user/login_user.dart';
+import 'package:pkn_app/server/url.dart' as url;
 
 class SplashScreen extends StatefulWidget {
   @override
@@ -11,7 +12,7 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   void initState() {
-    Timer(Duration(seconds: 3), ()=>Navigator.pushReplacementNamed(context, "/LoginUser") );
+    Timer(Duration(seconds: 3), ()=>Navigator.pushReplacementNamed(context, LoginUser.routeName) );
     super.initState();
   }
 
@@ -25,6 +26,8 @@ class _SplashScreenState extends State<SplashScreen> {
     return Scaffold(
       backgroundColor: Colors.deepPurple,
       body: Container(
+        height: MediaQuery.of(context).size.height,
+        width: MediaQuery.of(context).size.width,
         decoration: BoxDecoration(
           gradient: RadialGradient(
             colors: [
@@ -42,7 +45,7 @@ class _SplashScreenState extends State<SplashScreen> {
               padding: const EdgeInsets.all(20.0),
               child: Hero(
                 tag: "logo",
-                child: Image.asset("assets/images/logo.png",fit: BoxFit.fill,)),
+                child: Image.asset(url.Url.assetImage+"logo.png",fit: BoxFit.fill,)),
             )
 
           ],

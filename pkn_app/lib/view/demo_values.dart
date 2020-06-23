@@ -31,6 +31,11 @@ final List<Category> categories = [
   Category(2,"Pertanyaan", icon: FontAwesomeIcons.question),
 ];
 
+final List<Category> categoriesUser = [
+  Category(1,"Materi Pelajaran", icon: FontAwesomeIcons.bookOpen),
+  Category(2,"Quiz", icon: FontAwesomeIcons.gamepad),
+];
+
 final List<Question> demoQuestions = Question.fromData([
     {
       "type": "multiple",

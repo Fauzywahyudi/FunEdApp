@@ -1,15 +1,16 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:pkn_app/server/url.dart' as url;
 
-class LoginUser extends StatefulWidget {
+class LoginAdmin extends StatefulWidget {
+  static const routeName = '/LoginAdmin';
+
   @override
-  _LoginUserState createState() => _LoginUserState();
+  _LoginAdminState createState() => _LoginAdminState();
 }
 
-class _LoginUserState extends State<LoginUser> {
+class _LoginAdminState extends State<LoginAdmin> {
   TextEditingController tecUsername = TextEditingController();
   TextEditingController tecPassword = TextEditingController();
 
@@ -26,7 +27,7 @@ class _LoginUserState extends State<LoginUser> {
                 child: Container(
                   child: Column(),
                   width: double.infinity,
-                  height: 300,
+                  height: 250,
                   decoration: BoxDecoration(
                       gradient: LinearGradient(
                           colors: [Colors.deepOrange, Colors.deepPurple])),
@@ -37,7 +38,7 @@ class _LoginUserState extends State<LoginUser> {
                 child: Container(
                   child: Column(),
                   width: double.infinity,
-                  height: 300,
+                  height: 250,
                   decoration: BoxDecoration(
                       gradient: LinearGradient(
                           colors: [Color(0x44ff3a5a), Color(0x44fe494d)])),
@@ -56,31 +57,45 @@ class _LoginUserState extends State<LoginUser> {
                         width: 200,
                         child: Hero(
                             tag: "logo",
-                            child: Image.asset("assets/images/logo_white.png")),
+                            child: Image.asset(url.Url.assetImage+"logo_white.png")),
                       ),
                       SizedBox(
                         height: 20,
                       ),
-                      // Text(
-                      //   "Login",
-                      //   style: TextStyle(
-                      //       color: Colors.white,
-                      //       fontWeight: FontWeight.w700,
-                      //       fontSize: 30),
-                      // ),
                     ],
                   ),
                   width: double.infinity,
-                  height: 300,
+                  height: 250,
                   decoration: BoxDecoration(
                       gradient: LinearGradient(
                           colors: [Colors.deepOrange, Colors.red])),
                 ),
               ),
+              Container(
+                child: Row(
+                  children: [
+                    FloatingActionButton(onPressed: ()=>Navigator.pop(context),
+                    mini: true,
+                    child: Icon(Icons.arrow_back_ios,size: 15,
+                    ),
+                    ),
+                    Expanded(child: Container()),
+                  ],
+                ),
+              )
             ],
           ),
+          Center(
+            child: Text(
+              "Login Admin",
+              style: TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.w700,
+                  fontSize: 20),
+            ),
+          ),
           SizedBox(
-            height: 30,
+            height: 40,
           ),
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 32),
@@ -92,7 +107,7 @@ class _LoginUserState extends State<LoginUser> {
                 onChanged: (String value) {},
                 cursorColor: Colors.deepOrange,
                 decoration: InputDecoration(
-                    hintText: "NIS Siswa",
+                    hintText: "Username",
                     prefixIcon: Material(
                       elevation: 0,
                       borderRadius: BorderRadius.all(Radius.circular(30)),
@@ -157,47 +172,6 @@ class _LoginUserState extends State<LoginUser> {
                   onPressed: () => login(),
                 ),
               )),
-          SizedBox(
-            height: 20,
-          ),
-          Center(
-            child: Text(
-              "FORGOT PASSWORD ?",
-              style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 12,
-                  fontWeight: FontWeight.w700),
-            ),
-          ),
-          SizedBox(
-            height: 40,
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Text(
-                "Don't have an Account ? ",
-                style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 12,
-                    fontWeight: FontWeight.normal),
-              ),
-              InkWell(
-                onTap: (){
-                  Navigator.pushNamed(context, "/Register");
-                },
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text("Sign Up ",
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.w500,
-                          fontSize: 12,
-                          decoration: TextDecoration.underline)),
-                ),
-              ),
-            ],
-          )
         ],
       ),
     );
@@ -209,11 +183,12 @@ class _LoginUserState extends State<LoginUser> {
         "username": tecUsername.text,
         "password": tecPassword.text,
       });
-      String msg = result.body.substring(0, 1);
+      String msg = result.body.substring(0,1);
       List data = json.decode(result.body.substring(1));
-      if (msg == "1") {
+      if (msg=="1") {
+        Navigator.pop(context);
         Navigator.pushReplacementNamed(context, "/HomeAdmin");
-      } else if (msg == "0") {
+      } else if(msg=="0"){
         print("Gagal Login");
       }
     } catch (e) {}

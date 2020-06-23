@@ -7,6 +7,7 @@ import 'package:http/http.dart' as http;
 import 'package:pkn_app/server/url.dart' as url;
 
 class Register extends StatefulWidget {
+  static const routeName = '/Register';
   @override
   _RegisterState createState() => _RegisterState();
 }
@@ -18,7 +19,6 @@ class _RegisterState extends State<Register> {
   FocusNode focNisn = FocusNode();
   FocusNode focPassword = FocusNode();
   FocusNode focNama = FocusNode();
-
 
   @override
   Widget build(BuildContext context) {
@@ -63,18 +63,12 @@ class _RegisterState extends State<Register> {
                         width: 150,
                         child: Hero(
                             tag: "logo",
-                            child: Image.asset("assets/images/logo_white.png")),
+                            child: Image.asset(
+                                url.Url.assetImage + "logo_white.png")),
                       ),
                       SizedBox(
                         height: 20,
                       ),
-                      // Text(
-                      //   "Register",
-                      //   style: TextStyle(
-                      //       color: Colors.white,
-                      //       fontWeight: FontWeight.w700,
-                      //       fontSize: 20),
-                      // ),
                     ],
                   ),
                   width: double.infinity,
@@ -108,7 +102,7 @@ class _RegisterState extends State<Register> {
                 focusNode: focNisn,
                 keyboardType: TextInputType.number,
                 textInputAction: TextInputAction.next,
-                onSubmitted: (v){
+                onSubmitted: (v) {
                   FocusScope.of(context).requestFocus(focPassword);
                 },
                 autofocus: true,
@@ -143,7 +137,7 @@ class _RegisterState extends State<Register> {
                 focusNode: focPassword,
                 obscureText: true,
                 textInputAction: TextInputAction.next,
-                onSubmitted: (v){
+                onSubmitted: (v) {
                   FocusScope.of(context).requestFocus(focNama);
                 },
                 onChanged: (String value) {},
@@ -177,7 +171,7 @@ class _RegisterState extends State<Register> {
                 focusNode: focNama,
                 textCapitalization: TextCapitalization.words,
                 textInputAction: TextInputAction.done,
-                onSubmitted: (v){
+                onSubmitted: (v) {
                   focNama.unfocus();
                 },
                 onChanged: (String value) {},
@@ -219,21 +213,36 @@ class _RegisterState extends State<Register> {
                   onPressed: () => register(),
                 ),
               )),
-          SizedBox(
-            height: 20,
+          SizedBox(height: 60),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Text(
+                "Sudah punya akun ? ",
+                style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 12,
+                    fontWeight: FontWeight.normal),
+              ),
+              InkWell(
+                onTap: () {
+                  Navigator.pop(context);
+                },
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text("Log in ",
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.w500,
+                          fontSize: 12,
+                          decoration: TextDecoration.underline)),
+                ),
+              ),
+            ],
           ),
-          // Center(
-          //   child: Text(
-          //     "FORGOT PASSWORD ?",
-          //     style: TextStyle(
-          //         color: Colors.white,
-          //         fontSize: 12,
-          //         fontWeight: FontWeight.w700),
-          //   ),
-          // ),
-          // SizedBox(
-          //   height: 40,
-          // ),
+          SizedBox(
+            height: 40,
+          ),
         ],
       ),
     );
@@ -247,9 +256,7 @@ class _RegisterState extends State<Register> {
         "nama": tecNama.text
       });
       String msg = result.body.substring(0, 1);
-      List data = json.decode(result.body.substring(1));
       if (msg == "1") {
-        
         Navigator.pop(context);
       } else if (msg == "0") {
         print("Gagal Login");

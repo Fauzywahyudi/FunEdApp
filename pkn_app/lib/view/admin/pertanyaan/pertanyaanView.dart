@@ -5,10 +5,11 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:pkn_app/assets/assets.dart';
 import 'package:http/http.dart' as http;
 import 'package:pkn_app/server/url.dart' as url;
-import 'package:pkn_app/view/pertanyaan/add_pertanyaan.dart';
-import 'package:pkn_app/view/pertanyaan/view_demo.dart';
+import 'package:pkn_app/view/admin/pertanyaan/add_pertanyaan.dart';
+import 'package:pkn_app/view/admin/pertanyaan/view_demo.dart';
 
 class PertanyaanView extends StatefulWidget {
+  static const routeName = '/Pertanyaan';
   @override
   _PertanyaanViewState createState() => _PertanyaanViewState();
 }

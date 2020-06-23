@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
-import 'newHome.dart';
+import 'package:pkn_app/view/admin/home_admin.dart';
 import 'question.dart';
 
 class CheckAnswersPage extends StatelessWidget {
@@ -50,7 +50,7 @@ class CheckAnswersPage extends StatelessWidget {
         textColor: Colors.white,
         onPressed: (){
           Navigator.of(context).pushReplacement(MaterialPageRoute(
-            builder: (_) => QuizHomePage()
+            builder: (_) => HomeAdmin()
           ));
         },
       );

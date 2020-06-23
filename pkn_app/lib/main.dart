@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:pkn_app/models/siswa.dart';
 import 'package:pkn_app/view/html/home.dart';
-import 'package:pkn_app/view/login.dart';
-import 'package:pkn_app/view/materi.dart';
-import 'package:pkn_app/view/newHome.dart';
-import 'package:pkn_app/view/pertanyaan/add_pertanyaan.dart';
+import 'package:pkn_app/view/admin/login_admin.dart';
+import 'package:pkn_app/view/admin/materi_view.dart';
+import 'package:pkn_app/view/admin/home_admin.dart';
+import 'package:pkn_app/view/admin/pertanyaan/add_pertanyaan.dart';
 import 'package:pkn_app/view/quiz.dart';
-import 'package:pkn_app/view/pertanyaan/pertanyaanView.dart';
-import 'package:pkn_app/view/user/login.dart';
+import 'package:pkn_app/view/admin/pertanyaan/pertanyaanView.dart';
+import 'package:pkn_app/view/user/home_user.dart';
+import 'package:pkn_app/view/user/login_user.dart';
+import 'package:pkn_app/view/user/materi_pelajaran.dart';
+import 'package:pkn_app/view/user/quiz.dart';
 import 'package:pkn_app/view/user/register.dart';
 import 'package:pkn_app/view/utils/splashscreen.dart';
 
@@ -25,16 +29,20 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.deepPurple,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      routes: <String, WidgetBuilder>{
-        '/LoginUser' : (BuildContext context) => new LoginUser(),
-        '/Register' : (BuildContext context) => new Register(),
-        '/Login' : (BuildContext context) => new LoginPage(),
-        '/HomeAdmin' : (BuildContext context) => new QuizHomePage(),
-        '/Materi' : (BuildContext context) => new MateriView(),
-        '/Quiz' : (BuildContext context) => new QuizView(),
-        '/Pertanyaan' : (BuildContext context) => new PertanyaanView(),
-        '/AddPertanyaan' : (BuildContext context) => new AddPertanyaan(),
-        // '/Tambah_Materi' : (BuildContext context) => new TambahMateri(),
+      routes: {
+        // User
+        LoginUser.routeName: (context) => LoginUser(),
+        HomeUser.routeName: (context) => HomeUser(),
+        MateriPelajaran.routeName: (context) => MateriPelajaran(),
+        Quiz.routeName: (context) => Quiz(),
+        Register.routeName: (context) => Register(),
+
+        // Admin
+        LoginAdmin.routeName: (context) => LoginAdmin(),
+        HomeAdmin.routeName: (context) => HomeAdmin(),
+        MateriView.routeName: (context) => MateriView(),
+        PertanyaanView.routeName: (context) => PertanyaanView(),
+        AddPertanyaan.routeName: (context) => AddPertanyaan(),
       },
       home: SplashScreen(),
     );

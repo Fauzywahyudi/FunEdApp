@@ -1,33 +1,39 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:line_awesome_icons/line_awesome_icons.dart';
-import 'category.dart';
-import 'demo_values.dart';
-// import 'quiz_options.dart';
+import 'package:pkn_app/models/siswa.dart';
+import 'package:pkn_app/view/category.dart';
+import 'package:pkn_app/view/demo_values.dart';
+import 'package:pkn_app/assets/assets.dart';
 
-class QuizHomePage extends StatefulWidget {
+class HomeUser extends StatefulWidget {
+  static const routeName = '/HomeUser';
+
+  const HomeUser({Key key}) : super(key: key);
   @override
-  _QuizHomePageState createState() => _QuizHomePageState();
+  _HomeUserState createState() => _HomeUserState();
 }
 
-class _QuizHomePageState extends State<QuizHomePage> {
-  // static final String path = "lib/src/pages/quiz_app/home.dart";
-  final List<Color> tileColors = [
-    Colors.green,
-    Colors.blue,
-    Colors.purple,
-    Colors.pink,
-    Colors.indigo,
-    Colors.lightBlue,
-    Colors.amber,
-    Colors.deepOrange,
-    Colors.red,
-    Colors.brown
-  ];
+class _HomeUserState extends State<HomeUser> {
+  Siswa _siswa;
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
+    final Siswa args = ModalRoute.of(context).settings.arguments;
+    setState(() {
+      this._siswa = args;
+    });
+
     return Scaffold(
       body: Stack(
         children: <Widget>[
@@ -46,21 +52,31 @@ class _QuizHomePageState extends State<QuizHomePage> {
                 floating: true,
                 pinned: true,
                 snap: false,
+                leading: IconButton(icon: Icon(
+                  Icons.person,size: 30,), 
+                  tooltip: "Profil",
+                onPressed: () {},
+                ),
                 actions: [
-                  IconButton(icon: Icon(FontAwesomeIcons.powerOff,color: Colors.white,), onPressed: (){
-                    Navigator.pushReplacementNamed(context, '/Login');
-                  },
-                  tooltip: "Logout",                  
+                  IconButton(
+                    icon: Icon(
+                      FontAwesomeIcons.powerOff,
+                      color: Colors.white,
+                    ),
+                    onPressed: () {
+                      _customAlertDialog(context);
+                    },
+                    tooltip: "Logout",
                   ),
                 ],
                 // centerTitle: true,
                 expandedHeight: 100,
                 flexibleSpace: FlexibleSpaceBar(
                   title: Text(
-                  "FunEd App",
-                ),
-                centerTitle: true,
-                collapseMode: CollapseMode.parallax,
+                    "FunEd App",
+                  ),
+                  centerTitle: true,
+                  collapseMode: CollapseMode.parallax,
                 ),
               ),
               SliverPadding(
@@ -73,7 +89,7 @@ class _QuizHomePageState extends State<QuizHomePage> {
                         mainAxisSpacing: 10.0),
                     delegate: SliverChildBuilderDelegate(
                       _buildCategoryItem,
-                      childCount: categories.length,
+                      childCount: categoriesUser.length,
                     )),
               ),
               SliverFillRemaining(),
@@ -85,12 +101,15 @@ class _QuizHomePageState extends State<QuizHomePage> {
   }
 
   Widget _buildCategoryItem(BuildContext context, int index) {
-    Category category = categories[index];
+    Category category = categoriesUser[index];
+    String route = category.name.toString().replaceAll(" ", "");
+    print(route);
+
     return MaterialButton(
       elevation: 1.0,
       highlightElevation: 1.0,
       onPressed: () {
-        Navigator.pushNamed(context, "/${category.name}");
+        Navigator.pushNamed(context, "/$route", arguments: category);
       },
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(10.0),
@@ -112,17 +131,12 @@ class _QuizHomePageState extends State<QuizHomePage> {
     );
   }
 
-  // _categoryPressed(BuildContext context, Category category) {
-  //   showModalBottomSheet(
-  //     context: context,
-  //     builder: (sheetContext) => BottomSheet(
-  //       builder: (_) => QuizOptionsDialog(
-  //         category: category,
-  //       ),
-  //       onClosing: () {},
-  //     ),
-  //   );
-  // }
-
-  
+  _customAlertDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return buildDialog(context, _siswa.getNama());
+      },
+    );
+  }
 }

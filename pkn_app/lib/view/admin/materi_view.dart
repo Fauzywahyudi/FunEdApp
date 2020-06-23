@@ -8,6 +8,7 @@ import 'package:http/http.dart' as http;
 import 'package:pkn_app/server/url.dart' as url;
 
 class MateriView extends StatefulWidget {
+  static const routeName = '/Materi';
   @override
   _MateriViewState createState() => _MateriViewState();
 }

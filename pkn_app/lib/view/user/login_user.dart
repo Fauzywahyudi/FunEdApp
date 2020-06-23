@@ -1,15 +1,20 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:http/http.dart' as http;
+import 'package:pkn_app/models/siswa.dart';
 import 'package:pkn_app/server/url.dart' as url;
+import 'package:pkn_app/view/user/home_user.dart';
 
-class LoginPage extends StatefulWidget {
+class LoginUser extends StatefulWidget {
+  static const routeName = '/LoginUser';
+
   @override
-  _LoginPageState createState() => _LoginPageState();
+  _LoginUserState createState() => _LoginUserState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _LoginUserState extends State<LoginUser> {
   TextEditingController tecUsername = TextEditingController();
   TextEditingController tecPassword = TextEditingController();
 
@@ -26,10 +31,11 @@ class _LoginPageState extends State<LoginPage> {
                 child: Container(
                   child: Column(),
                   width: double.infinity,
-                  height: 300,
+                  height: 250,
                   decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                          colors: [Colors.deepOrange, Colors.deepPurple])),
+                    gradient: LinearGradient(
+                        colors: [Colors.deepOrange, Colors.deepPurple]),
+                  ),
                 ),
               ),
               ClipPath(
@@ -37,7 +43,7 @@ class _LoginPageState extends State<LoginPage> {
                 child: Container(
                   child: Column(),
                   width: double.infinity,
-                  height: 300,
+                  height: 250,
                   decoration: BoxDecoration(
                       gradient: LinearGradient(
                           colors: [Color(0x44ff3a5a), Color(0x44fe494d)])),
@@ -51,30 +57,50 @@ class _LoginPageState extends State<LoginPage> {
                       SizedBox(
                         height: 40,
                       ),
-                      // Container(child: Image.asset(pathImage),),
+                      Container(
+                        height: 150,
+                        width: 200,
+                        child: Hero(
+                            tag: "logo",
+                            child: Image.asset(url.Url.assetImage+"logo_white.png")),
+                      ),
                       SizedBox(
                         height: 20,
-                      ),
-                      Text(
-                        "Login",
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.w700,
-                            fontSize: 30),
                       ),
                     ],
                   ),
                   width: double.infinity,
-                  height: 300,
+                  height: 250,
                   decoration: BoxDecoration(
                       gradient: LinearGradient(
                           colors: [Colors.deepOrange, Colors.red])),
                 ),
               ),
+              Container(
+                child: Row(
+                  children: [
+                    Expanded(child: Container()),
+                    FloatingActionButton(onPressed: ()=>Navigator.pushNamed(context, '/LoginAdmin'),
+                    mini: true,
+                    child: Icon(FontAwesomeIcons.key,size: 15,
+                    ),
+                    )
+                  ],
+                ),
+              )
             ],
           ),
+          Center(
+            child: Text(
+              "Login Siswa",
+              style: TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.w700,
+                  fontSize: 20),
+            ),
+          ),
           SizedBox(
-            height: 30,
+            height: 40,
           ),
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 32),
@@ -83,10 +109,11 @@ class _LoginPageState extends State<LoginPage> {
               borderRadius: BorderRadius.all(Radius.circular(30)),
               child: TextField(
                 controller: tecUsername,
+                keyboardType: TextInputType.number,
                 onChanged: (String value) {},
                 cursorColor: Colors.deepOrange,
                 decoration: InputDecoration(
-                    hintText: "Username",
+                    hintText: "NIS Siswa",
                     prefixIcon: Material(
                       elevation: 0,
                       borderRadius: BorderRadius.all(Radius.circular(30)),
@@ -152,19 +179,7 @@ class _LoginPageState extends State<LoginPage> {
                 ),
               )),
           SizedBox(
-            height: 20,
-          ),
-          Center(
-            child: Text(
-              "FORGOT PASSWORD ?",
-              style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 12,
-                  fontWeight: FontWeight.w700),
-            ),
-          ),
-          SizedBox(
-            height: 40,
+            height: 60
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -176,12 +191,20 @@ class _LoginPageState extends State<LoginPage> {
                     fontSize: 12,
                     fontWeight: FontWeight.normal),
               ),
-              Text("Sign Up ",
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.w500,
-                      fontSize: 12,
-                      decoration: TextDecoration.underline)),
+              InkWell(
+                onTap: () {
+                  Navigator.pushNamed(context, "/Register");
+                },
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text("Sign Up ",
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.w500,
+                          fontSize: 12,
+                          decoration: TextDecoration.underline)),
+                ),
+              ),
             ],
           )
         ],
@@ -191,18 +214,15 @@ class _LoginPageState extends State<LoginPage> {
 
   login() async {
     try {
-      final result = await http.post(url.Url.home + "login.php", body: {
-        "username": tecUsername.text,
-        "password": tecPassword.text,
-      });
-      String msg = result.body.substring(0,1);
-      List data = json.decode(result.body.substring(1));
-      if (msg=="1") {
-        Navigator.pushReplacementNamed(context, "/HomeAdmin");
-      } else if(msg=="0"){
-        print("Gagal Login");
-      }
-    } catch (e) {}
+      Siswa siswa = await SiswaService().getByNis(tecUsername.text, tecPassword.text);
+      Navigator.pushReplacementNamed(
+      context,
+      HomeUser.routeName,
+      arguments: siswa,
+    );
+    } catch (e) {
+      print("Nisn atau Password salah!");
+    }
   }
 }
 

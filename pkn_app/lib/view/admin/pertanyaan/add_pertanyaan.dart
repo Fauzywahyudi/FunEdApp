@@ -7,6 +7,8 @@ import 'package:http/http.dart' as http;
 import 'package:pkn_app/server/url.dart' as url;
 
 class AddPertanyaan extends StatefulWidget {
+  static const routeName = '/AddPertanyaan';
+
   @override
   _AddPertanyaanState createState() => _AddPertanyaanState();
 }
