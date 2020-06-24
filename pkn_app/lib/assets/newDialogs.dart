@@ -224,10 +224,6 @@ class BeautifulAlertDialog extends StatelessWidget {
               CircleAvatar(
                 radius: 55,
                 backgroundColor: Colors.grey.shade200,
-                // child: PNetworkImage(
-                //   infoIcon,
-                //   width: 60,
-                // ),
               ),
               SizedBox(width: 20.0),
               Expanded(

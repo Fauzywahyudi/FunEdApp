@@ -7,9 +7,11 @@ import 'package:pkn_app/view/admin/home_admin.dart';
 import 'package:pkn_app/view/admin/pertanyaan/add_pertanyaan.dart';
 import 'package:pkn_app/view/quiz.dart';
 import 'package:pkn_app/view/admin/pertanyaan/pertanyaanView.dart';
+import 'package:pkn_app/view/user/edit_profil.dart';
 import 'package:pkn_app/view/user/home_user.dart';
 import 'package:pkn_app/view/user/login_user.dart';
 import 'package:pkn_app/view/user/materi_pelajaran.dart';
+import 'package:pkn_app/view/user/profil_user.dart';
 import 'package:pkn_app/view/user/quiz.dart';
 import 'package:pkn_app/view/user/register.dart';
 import 'package:pkn_app/view/utils/splashscreen.dart';
@@ -36,6 +38,8 @@ class MyApp extends StatelessWidget {
         MateriPelajaran.routeName: (context) => MateriPelajaran(),
         Quiz.routeName: (context) => Quiz(),
         Register.routeName: (context) => Register(),
+        ProfilUser.routeName: (context) =>ProfilUser(),
+        EditProfil.routeName: (context) =>EditProfil(),
 
         // Admin
         LoginAdmin.routeName: (context) => LoginAdmin(),

@@ -60,7 +60,7 @@ Widget buildDialog(BuildContext context, String nama) {
                         child: Text("Iya"),
                         onPressed: () {
                           Navigator.pop(context);
-                          Navigator.pushNamed(context, '/LoginUser');
+                          Navigator.pushReplacementNamed(context, '/LoginUser');
                         },
                       ),
                     ),

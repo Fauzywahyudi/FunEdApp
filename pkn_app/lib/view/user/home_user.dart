@@ -55,7 +55,7 @@ class _HomeUserState extends State<HomeUser> {
                 leading: IconButton(icon: Icon(
                   Icons.person,size: 30,), 
                   tooltip: "Profil",
-                onPressed: () {},
+                onPressed: ()=>Navigator.pushNamed(context, "/ProfilUser",arguments: _siswa),
                 ),
                 actions: [
                   IconButton(
@@ -109,7 +109,12 @@ class _HomeUserState extends State<HomeUser> {
       elevation: 1.0,
       highlightElevation: 1.0,
       onPressed: () {
-        Navigator.pushNamed(context, "/$route", arguments: category);
+        if(_siswa.getJk()==null || _siswa.getKelas()==null|| _siswa.getJurusan()==null){
+          _requestData(context, "/$route");
+        }else{
+          Navigator.pushNamed(context, "/$route", arguments: _siswa);
+        }
+        
       },
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(10.0),
@@ -138,5 +143,85 @@ class _HomeUserState extends State<HomeUser> {
         return buildDialog(context, _siswa.getNama());
       },
     );
+  }
+
+  _requestData(BuildContext context, String route) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return buildDialogRequest(context, _siswa.getNama(), route);
+      },
+    );
+  }
+
+  Widget buildDialogRequest(BuildContext context, String nama, String route) {
+    return Material(
+        type: MaterialType.transparency,
+        child: Container(
+          alignment: Alignment.center,
+          child: Container(
+            margin: const EdgeInsets.all(8.0),
+            padding: const EdgeInsets.all(20.0),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(20.0),
+              color: Colors.white,
+            ),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                SizedBox(height: 10.0),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Icon(
+                      FontAwesomeIcons.idCard,
+                      color: Colors.deepPurple,
+                    ),
+                    const SizedBox(width: 10.0),
+                    Expanded(
+                      child: Text(
+                        "Lengkapi Data",
+                        style: titleStyle,
+                        textAlign: TextAlign.left,
+                      ),
+                    ),
+                  ],
+                ),
+                Divider(),
+                SizedBox(height: 20.0),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text("$nama data anda belum lengkap, Silahkan lengkapi data diri!"),
+                ),
+                SizedBox(height: 20.0),
+                Row(
+                  children: [
+                    Expanded(
+                      child: FlatButton(
+                        padding: const EdgeInsets.all(5.0),
+                        child: Text("Nanti"),
+                        onPressed: (){
+                          Navigator.pop(context);
+                          Navigator.pushNamed(context, '$route',arguments: _siswa);
+                        }
+                      ),
+                    ),
+                    Expanded(
+                      child: FlatButton(
+                        padding: const EdgeInsets.all(5.0),
+                        child: Text("Lengkapi"),
+                        onPressed: () {
+                          Navigator.pop(context);
+                          Navigator.pushNamed(context, '/ProfilUser',arguments: _siswa);
+                          Navigator.pushNamed(context, '/EditProfil',arguments: _siswa);
+                        },
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        ));
   }
 }
