@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:line_awesome_icons/line_awesome_icons.dart';
 import 'package:pkn_app/models/siswa.dart';
 import 'package:pkn_app/view/category.dart';
 import 'package:pkn_app/view/demo_values.dart';
@@ -53,7 +54,7 @@ class _HomeUserState extends State<HomeUser> {
                 pinned: true,
                 snap: false,
                 leading: IconButton(icon: Icon(
-                  Icons.person,size: 30,), 
+                  Icons.person, size: 30,), 
                   tooltip: "Profil",
                 onPressed: ()=>Navigator.pushNamed(context, "/ProfilUser",arguments: _siswa),
                 ),
@@ -103,8 +104,6 @@ class _HomeUserState extends State<HomeUser> {
   Widget _buildCategoryItem(BuildContext context, int index) {
     Category category = categoriesUser[index];
     String route = category.name.toString().replaceAll(" ", "");
-    print(route);
-
     return MaterialButton(
       elevation: 1.0,
       highlightElevation: 1.0,
@@ -126,10 +125,12 @@ class _HomeUserState extends State<HomeUser> {
         children: <Widget>[
           if (category.icon != null) Icon(category.icon),
           if (category.icon != null) SizedBox(height: 5.0),
+          SizedBox(height: 10,),
           Text(
             category.name,
             textAlign: TextAlign.center,
             maxLines: 3,
+            style: TextStyle(fontSize: 18),
           ),
         ],
       ),

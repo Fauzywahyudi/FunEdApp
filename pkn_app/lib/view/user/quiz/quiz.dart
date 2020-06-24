@@ -2,11 +2,14 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:line_awesome_icons/line_awesome_icons.dart';
 import 'package:pkn_app/assets/assets.dart';
+import 'package:pkn_app/models/hasil.dart';
 import 'package:pkn_app/models/pertanyaan.dart';
 import 'package:pkn_app/models/siswa.dart';
+import 'package:pkn_app/view/user/quiz/hasil_quiz.dart';
 
 class Quiz extends StatefulWidget {
   static const routeName = '/Quiz';
@@ -20,17 +23,18 @@ class _QuizState extends State<Quiz> {
   bool isPrepare = true;
   int _jumlahSoal = 0;
   int _currentSoal = 0;
+  int _jumlahBenar = 0;
   List<Pertanyaan> pertanyaanList;
   Pertanyaan _currentPertanyaan;
   List _currentOpsi;
   bool isLoading = false;
   String _currentPilihan = "";
+  String _currentIdPertanyaan = "";
+  String _currentKunci = "";
+  List<String> _pilihUser = List<String>();
+  List<String> _idPertanyaan = List<String>();
 
-  @override
-  void initState() {
-    getPertanyaan();
-    super.initState();
-  }
+  
 
   getPertanyaan() async {
     pertanyaanList = await PertanyaanService().getAll();
@@ -39,12 +43,24 @@ class _QuizState extends State<Quiz> {
     });
   }
 
-  setOpsi(){
+  setOpsi() {
     setState(() {
       _currentPertanyaan = pertanyaanList[_currentSoal];
       _currentOpsi = json.decode(_currentPertanyaan.getOpsi());
       _currentOpsi.shuffle();
     });
+  }
+
+  Future insert()async{
+    await HasilService().insertHasil(_siswa.getId(), json.encode(_idPertanyaan), json.encode(_pilihUser),_jumlahSoal, _jumlahBenar);
+  }
+
+
+
+  @override
+  void initState() {
+    getPertanyaan();
+    super.initState();
   }
 
   @override
@@ -70,19 +86,33 @@ class _QuizState extends State<Quiz> {
       backgroundColor: Colors.deepOrange,
       elevation: 10,
       onPressed: () {
-        setState(() {
-          if (_currentSoal < _jumlahSoal - 1) {
-            _currentSoal++;
-            setOpsi();
-            _selected = List.generate(20, (i) => false);
-          } else {
-            print("habis");
+        setState(()  {
+          if (_currentPilihan!="") {
+            _pilihUser.add(_currentPilihan);
+            _idPertanyaan.add(_currentIdPertanyaan);
+            if(_currentPilihan==_currentKunci){
+              _jumlahBenar++;
+            }
+            if (_currentSoal < _jumlahSoal - 1) {
+              _currentSoal++;
+              setOpsi();
+              _selected = List.generate(20, (i) => false);
+              _currentPilihan="";
+              _currentIdPertanyaan="";
+              _currentKunci="";
+            } else {
+              insert();
+              Navigator.pushReplacementNamed(context, HasilQuiz.routeName,arguments: _siswa);
+            }
+          }else{
+            Fluttertoast.showToast(msg: "Silahkan pilih jawaban!");
           }
-          print(_currentPilihan);
         });
       },
-      label: Text("${_currentSoal+1 == _jumlahSoal ? "Finish" : "Next" }"),
-      icon: _currentSoal+1 == _jumlahSoal ? Icon(Icons.done):Icon(Icons.arrow_forward_ios),
+      label: Text("${_currentSoal + 1 == _jumlahSoal ? "Finish" : "Next"}"),
+      icon: _currentSoal + 1 == _jumlahSoal
+          ? Icon(Icons.done)
+          : Icon(Icons.arrow_forward_ios),
     );
   }
 
@@ -154,59 +184,63 @@ class _QuizState extends State<Quiz> {
     return Container(
       height: MediaQuery.of(context).size.height,
       color: Colors.black12,
-      child: isLoading ? Container() : Stack(
-        children: [
-          ClipPath(
-            clipper: WaveClipperTwo(),
-            child: Container(
-              decoration: BoxDecoration(color: Colors.deepPurple),
-              height: 250,
-            ),
-          ),
-          Container(
-            margin: EdgeInsets.symmetric(horizontal: 10),
-            child: ListTile(
-                title: Text(
-              _currentPertanyaan.getPertanyaan(),
-              textAlign: TextAlign.justify,
-              style: TextStyle(color: Colors.white, fontSize: 17),
-            )),
-          ),
-          Container(
-            padding: EdgeInsets.only(left: 10,right: 10, bottom: 10),
-            margin: EdgeInsets.only(top: 250),
-            child: ListView.builder(
-              itemCount: _currentOpsi.length,
-              itemBuilder: (context, index) {
-                return Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.all(Radius.circular(10)),
-                    color: _selected[index]
-                        ? Colors.deepPurple.withOpacity(0.5)
-                        : Colors.deepPurple.withOpacity(0.2),
+      child: isLoading
+          ? Container()
+          : Stack(
+              children: [
+                ClipPath(
+                  clipper: WaveClipperTwo(),
+                  child: Container(
+                    decoration: BoxDecoration(color: Colors.deepPurple),
+                    height: 250,
                   ),
-                  margin: EdgeInsets.symmetric(vertical: 5),
+                ),
+                Container(
+                  margin: EdgeInsets.symmetric(horizontal: 10),
                   child: ListTile(
-                    title: Text(
-                      _currentOpsi[index],
-                      textAlign: TextAlign.justify,
-                    ),
-                    onTap: () {
-                      setState(() {
-                        _selected = List.generate(20, (i) => false);
-                        _selected[index] = !_selected[index];
-                        _currentPilihan = _currentOpsi[index];
-                      });
+                      title: Text(
+                    _currentPertanyaan.getPertanyaan(),
+                    textAlign: TextAlign.justify,
+                    style: TextStyle(color: Colors.white, fontSize: 17),
+                  )),
+                ),
+                Container(
+                  padding: EdgeInsets.only(left: 10, right: 10, bottom: 10),
+                  margin: EdgeInsets.only(top: 250),
+                  child: ListView.builder(
+                    itemCount: _currentOpsi.length,
+                    itemBuilder: (context, index) {
+                      return Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.all(Radius.circular(10)),
+                          color: _selected[index]
+                              ? Colors.deepPurple.withOpacity(0.5)
+                              : Colors.deepPurple.withOpacity(0.2),
+                        ),
+                        margin: EdgeInsets.symmetric(vertical: 5),
+                        child: ListTile(
+                          title: Text(
+                            _currentOpsi[index],
+                            textAlign: TextAlign.justify,
+                          ),
+                          onTap: () {
+                            setState(() {
+                              _selected = List.generate(20, (i) => false);
+                              _selected[index] = !_selected[index];
+                              _currentPilihan = _currentOpsi[index];
+                              _currentIdPertanyaan = _currentPertanyaan.getId()
+                              .toString();
+                              _currentKunci = _currentPertanyaan.getJawaban();
+                            });
+                          },
+                        ),
+                      );
                     },
                   ),
-                );
-              },
+                ),
+                Positioned(right: 10, top: 180, child: _buildFABQuiz()),
+              ],
             ),
-          ),
-          Positioned(right: 10, top: 180,
-            child: _buildFABQuiz()),
-        ],
-      ),
     );
   }
 
@@ -239,7 +273,8 @@ class _QuizState extends State<Quiz> {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     Icon(
-                      Icons.exit_to_app,size: 30,
+                      Icons.exit_to_app,
+                      size: 30,
                       color: Colors.deepPurple,
                     ),
                     const SizedBox(width: 10.0),
@@ -263,13 +298,11 @@ class _QuizState extends State<Quiz> {
                   children: [
                     Expanded(
                       child: FlatButton(
-                        padding: const EdgeInsets.all(5.0),
-                        child: Text("Batal"),
-                        onPressed: (){
-                          Navigator.pop(context);
-                          
-                        }
-                      ),
+                          padding: const EdgeInsets.all(5.0),
+                          child: Text("Batal"),
+                          onPressed: () {
+                            Navigator.pop(context);
+                          }),
                     ),
                     Expanded(
                       child: FlatButton(

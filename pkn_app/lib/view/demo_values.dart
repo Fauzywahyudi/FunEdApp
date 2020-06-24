@@ -34,6 +34,8 @@ final List<Category> categories = [
 final List<Category> categoriesUser = [
   Category(1,"Materi Pelajaran", icon: FontAwesomeIcons.bookOpen),
   Category(2,"Quiz", icon: FontAwesomeIcons.gamepad),
+  Category(3,"Guide", icon: FontAwesomeIcons.bookReader),
+  Category(4,"About", icon: FontAwesomeIcons.idCard),
 ];
 
 final List<Question> demoQuestions = Question.fromData([

@@ -1,12 +1,9 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:line_awesome_icons/line_awesome_icons.dart';
 import 'package:pkn_app/assets/assets.dart';
 import 'package:pkn_app/models/siswa.dart';
-import 'package:pkn_app/view/user/profil_user.dart';
 
 class EditProfil extends StatefulWidget {
   static const routeName = '/EditProfil';

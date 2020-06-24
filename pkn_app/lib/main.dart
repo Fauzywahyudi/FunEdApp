@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:pkn_app/models/siswa.dart';
-import 'package:pkn_app/view/html/home.dart';
 import 'package:pkn_app/view/admin/login_admin.dart';
 import 'package:pkn_app/view/admin/materi_view.dart';
 import 'package:pkn_app/view/admin/home_admin.dart';
 import 'package:pkn_app/view/admin/pertanyaan/add_pertanyaan.dart';
-import 'package:pkn_app/view/quiz.dart';
 import 'package:pkn_app/view/admin/pertanyaan/pertanyaanView.dart';
-import 'package:pkn_app/view/user/edit_profil.dart';
+import 'package:pkn_app/view/user/about.dart';
+import 'package:pkn_app/view/user/guide.dart';
+import 'package:pkn_app/view/user/profil/edit_profil.dart';
 import 'package:pkn_app/view/user/home_user.dart';
 import 'package:pkn_app/view/user/login_user.dart';
 import 'package:pkn_app/view/user/materi_pelajaran.dart';
-import 'package:pkn_app/view/user/profil_user.dart';
-import 'package:pkn_app/view/user/quiz.dart';
+import 'package:pkn_app/view/user/profil/profil_user.dart';
+import 'package:pkn_app/view/user/quiz/hasil_quiz.dart';
+import 'package:pkn_app/view/user/quiz/quiz.dart';
 import 'package:pkn_app/view/user/register.dart';
 import 'package:pkn_app/view/utils/splashscreen.dart';
 
@@ -34,12 +34,15 @@ class MyApp extends StatelessWidget {
       routes: {
         // User
         LoginUser.routeName: (context) => LoginUser(),
+        Register.routeName: (context) => Register(),
         HomeUser.routeName: (context) => HomeUser(),
         MateriPelajaran.routeName: (context) => MateriPelajaran(),
         Quiz.routeName: (context) => Quiz(),
-        Register.routeName: (context) => Register(),
+        HasilQuiz.routeName: (context) => HasilQuiz(),
         ProfilUser.routeName: (context) =>ProfilUser(),
         EditProfil.routeName: (context) =>EditProfil(),
+        About.routeName: (context) => About(),
+        Guide.routeName: (context) => Guide(),
 
         // Admin
         LoginAdmin.routeName: (context) => LoginAdmin(),
