@@ -5,8 +5,8 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:pkn_app/assets/assets.dart';
 import 'package:http/http.dart' as http;
 import 'package:pkn_app/server/url.dart' as url;
-import 'package:pkn_app/view/add_subbab.dart';
-import 'package:pkn_app/view/subbab.dart';
+import 'package:pkn_app/view/admin/materi/add_subbab.dart';
+import 'package:pkn_app/view/admin/materi/subbab.dart';
 
 class BabDescrib extends StatefulWidget {
   final data;

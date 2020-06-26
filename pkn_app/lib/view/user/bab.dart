@@ -3,59 +3,49 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:pkn_app/assets/assets.dart';
-import 'package:pkn_app/view/admin/materi/bab.dart';
 import 'package:http/http.dart' as http;
 import 'package:pkn_app/server/url.dart' as url;
+import 'package:pkn_app/view/user/subbab.dart';
 
-class MateriView extends StatefulWidget {
-  static const routeName = '/Materi';
+class BabDescribUser extends StatefulWidget {
+  final data;
+
+  const BabDescribUser({Key key, this.data}) : super(key: key);
   @override
-  _MateriViewState createState() => _MateriViewState();
+  _BabDescribUserState createState() => _BabDescribUserState();
 }
 
-class _MateriViewState extends State<MateriView> {
-  TextEditingController tecNamaBab = TextEditingController();
-  TextEditingController tecNoBab = TextEditingController();
+class _BabDescribUserState extends State<BabDescribUser> {
+
+  TextEditingController tecNamaSubBab = TextEditingController();
+  TextEditingController tecIsiSubBab = TextEditingController();
   TextStyle titleStyle = TextStyle(
       fontSize: 20.0, color: Colors.black, fontWeight: FontWeight.bold);
-
-  @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: _buildAppBar(),
-      floatingActionButton: _buildFAB(),
+      // floatingActionButton: _buildFAB(),
       body: _buildBody(),
     );
   }
 
-  Widget _buildAppBar() {
+  // Widget _buildFAB(){
+  //   return FloatingActionButton(
+  //     child: Icon(Icons.edit),
+  //     onPressed: ()=>Navigator.push(context, MaterialPageRoute(fullscreenDialog: true, builder: (context) => AddSubBab(data: widget.data,),))
+  //     // _customAlertDialog(context),
+  //   );
+  // }
+
+  Widget _buildAppBar(){
     return AppBar(
-      leading: backIos(Colors.white, context),
-      title: Text("Materi"),
-    );
+        leading: backIos(Colors.white, context),
+        title: Text("Bab "+widget.data['bab']),
+      );
   }
 
-  Widget _buildFAB() {
-    return FloatingActionButton(
-      child: Icon(
-        Icons.edit,
-      ),
-      tooltip: "Tambah Bab",
-      onPressed: () => _customAlertDialog(context),
-    );
-  }
-
-  Widget _buildBody() {
+  Widget _buildBody(){
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
       child: FutureBuilder<List>(
@@ -64,7 +54,6 @@ class _MateriViewState extends State<MateriView> {
           if (snapshot.hasError) print(snapshot.error);
           return snapshot.hasData
               ? ListView.builder(
-                physics: BouncingScrollPhysics(),
                   itemCount: snapshot.data.length,
                   itemBuilder: (context, index) {
                     return Column(
@@ -88,7 +77,7 @@ class _MateriViewState extends State<MateriView> {
       onTap: () => Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => BabDescrib(
+            builder: (context) => SubBabDescrUser(
               data: data,
             ),
           )),
@@ -122,7 +111,8 @@ class _MateriViewState extends State<MateriView> {
                   ),
                   const SizedBox(height: 16.0),
                   Text(
-                    "Bab ${data['bab']}",
+                    "Sub Bab ",
+                    textAlign: TextAlign.center,
                     style: TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.bold,
@@ -151,7 +141,7 @@ class _MateriViewState extends State<MateriView> {
                       padding:
                           EdgeInsets.symmetric(vertical: 26, horizontal: 15),
                       child: Text(
-                        data['nama_bab'],
+                        data['nama_sub_bab'],
                         style: TextStyle(
                           color: Colors.white,
                           fontWeight: FontWeight.bold,
@@ -168,16 +158,6 @@ class _MateriViewState extends State<MateriView> {
     );
   }
 
-  Future<List> getData() async {
-    final result = await http.post(url.Url.home + "getBab.php");
-    if(mounted){
-      setState(() {
-        
-      });
-    }
-    return json.decode(result.body);
-  }
-
   _customAlertDialog(BuildContext context) {
     showDialog(
       context: context,
@@ -185,6 +165,17 @@ class _MateriViewState extends State<MateriView> {
         return _buildDialog();
       },
     );
+  }
+
+  Future<List> getData() async {
+    final result = await http.post(url.Url.home + "getSubBab.php",body: {
+      "id_bab" : widget.data['id_bab'],
+    });
+    if(mounted){
+      setState(() {
+      });
+    }
+    return json.decode(result.body);
   }
 
   Widget _buildDialog() {
@@ -213,7 +204,7 @@ class _MateriViewState extends State<MateriView> {
                     const SizedBox(width: 10.0),
                     Expanded(
                       child: Text(
-                        "Tambah Bab",
+                        "Tambah Sub-Bab",
                         style: titleStyle,
                         textAlign: TextAlign.left,
                       ),
@@ -228,13 +219,13 @@ class _MateriViewState extends State<MateriView> {
                     color: Colors.deepPurple.withOpacity(0.5),
                     borderRadius: BorderRadius.all(Radius.circular(10)),
                     child: TextField(
-                      controller: tecNoBab,
+                      controller: tecNamaSubBab,
                       onChanged: (String value) {},
                       cursorColor: Colors.deepPurple,
                       keyboardType: TextInputType.number,
                       textCapitalization: TextCapitalization.words,
                       decoration: InputDecoration(
-                          hintText: "Nomor Bab",
+                          hintText: "Nama Sub-Bab",
                           border: InputBorder.none,
                           contentPadding: EdgeInsets.symmetric(
                               horizontal: 25, vertical: 13)),
@@ -248,14 +239,14 @@ class _MateriViewState extends State<MateriView> {
                     color: Colors.deepPurple.withOpacity(0.5),
                     borderRadius: BorderRadius.all(Radius.circular(10)),
                     child: TextField(
-                      controller: tecNamaBab,
+                      controller: tecIsiSubBab,
                       maxLines: 3,
                       minLines: 1,
                       onChanged: (String value) {},
                       cursorColor: Colors.deepPurple,
                       textCapitalization: TextCapitalization.words,
                       decoration: InputDecoration(
-                          hintText: "Nama Bab",
+                          hintText: "Isi Sub-Bab",
                           border: InputBorder.none,
                           contentPadding: EdgeInsets.symmetric(
                               horizontal: 25, vertical: 13)),
@@ -277,7 +268,7 @@ class _MateriViewState extends State<MateriView> {
                         padding: const EdgeInsets.all(5.0),
                         child: Text("Oke"),
                         onPressed: () async {
-                          await save(tecNoBab.text, tecNamaBab.text);
+                          await save(tecNamaSubBab.text, tecIsiSubBab.text,widget.data['id_bab']);
                         },
                       ),
                     ),
@@ -289,12 +280,12 @@ class _MateriViewState extends State<MateriView> {
         ));
   }
 
-  Future save(String bab, String nama) async {
-    await http.post(url.Url.home + "addBab.php",
-        body: {"bab": bab, "nama_bab": nama});
+  Future save(String bab, String nama, String idbab) async {
+    await http.post(url.Url.home + "addSubBab.php",
+        body: {"nama_subbab": bab, "isi_subbab": nama, "id_bab" : idbab});
     Navigator.pop(context);
-    tecNamaBab.text="";
-    tecNoBab.text="";
+    tecNamaSubBab.text="";
+    tecIsiSubBab.text="";
     setState(() {});
   }
 }

@@ -102,11 +102,12 @@ class _HomeAdminState extends State<HomeAdmin> {
 
   Widget _buildCategoryItem(BuildContext context, int index) {
     Category category = categories[index];
+    String route = category.name.toString().replaceAll(" ", "");
     return MaterialButton(
       elevation: 1.0,
       highlightElevation: 1.0,
       onPressed: () {
-        Navigator.pushNamed(context, "/${category.name}");
+        Navigator.pushNamed(context, "/$route");
       },
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(10.0),

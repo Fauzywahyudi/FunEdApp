@@ -29,6 +29,9 @@ final List<Modul> moduls = [
 final List<Category> categories = [
   Category(1,"Materi", icon: FontAwesomeIcons.bookOpen),
   Category(2,"Pertanyaan", icon: FontAwesomeIcons.question),
+  Category(3,"Score Quiz", icon: FontAwesomeIcons.gamepad),
+  Category(4,"Perbaharui Petunjuk", icon: FontAwesomeIcons.bookReader),
+  Category(5,"Perbaharui About", icon: FontAwesomeIcons.idCard),
 ];
 
 final List<Category> categoriesUser = [

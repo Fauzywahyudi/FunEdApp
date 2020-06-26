@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:pkn_app/assets/assets.dart';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
+import 'package:pkn_app/server/url.dart' as url;
+
 
 class About extends StatefulWidget {
   static const routeName = '/About';
@@ -8,6 +12,12 @@ class About extends StatefulWidget {
 }
 
 class _AboutState extends State<About> {
+
+  Future<List> getData()async{
+    final result = await http.post(url.Url.home+"getAbout.php");
+    return json.decode(result.body);
+  }
+
   @override
   void initState() {
     super.initState();
@@ -35,11 +45,18 @@ class _AboutState extends State<About> {
 
   Widget _buildBody() {
     return Container(
-      child: ListView(
-        children: [
-          
-        ],
-      ),
+      padding: EdgeInsets.all(10),
+      child: FutureBuilder<List>(future: getData(),
+      builder: (context, snapshot) {
+        if(snapshot.hasError)print(snapshot.error);
+        return snapshot.hasData ?
+        ListView.builder(itemCount: snapshot.data.length,
+        itemBuilder: (context, index) {
+          return Text(snapshot.data[index]['text'],textAlign: TextAlign.justify, style: TextStyle(
+            fontSize: 17,
+          ),);
+        },) : Center(child: CircularProgressIndicator(),);
+      },)
     );
   }
 }

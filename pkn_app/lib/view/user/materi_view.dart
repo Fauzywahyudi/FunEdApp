@@ -3,17 +3,17 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:pkn_app/assets/assets.dart';
-import 'package:pkn_app/view/admin/materi/bab.dart';
 import 'package:http/http.dart' as http;
 import 'package:pkn_app/server/url.dart' as url;
+import 'package:pkn_app/view/user/bab.dart';
 
-class MateriView extends StatefulWidget {
-  static const routeName = '/Materi';
+class MateriPelajaran extends StatefulWidget {
+  static const routeName = '/MateriPelajaran';
   @override
-  _MateriViewState createState() => _MateriViewState();
+  _MateriPelajaranState createState() => _MateriPelajaranState();
 }
 
-class _MateriViewState extends State<MateriView> {
+class _MateriPelajaranState extends State<MateriPelajaran> {
   TextEditingController tecNamaBab = TextEditingController();
   TextEditingController tecNoBab = TextEditingController();
   TextStyle titleStyle = TextStyle(
@@ -33,7 +33,7 @@ class _MateriViewState extends State<MateriView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: _buildAppBar(),
-      floatingActionButton: _buildFAB(),
+      // floatingActionButton: _buildFAB(),
       body: _buildBody(),
     );
   }
@@ -45,15 +45,15 @@ class _MateriViewState extends State<MateriView> {
     );
   }
 
-  Widget _buildFAB() {
-    return FloatingActionButton(
-      child: Icon(
-        Icons.edit,
-      ),
-      tooltip: "Tambah Bab",
-      onPressed: () => _customAlertDialog(context),
-    );
-  }
+  // Widget _buildFAB() {
+  //   return FloatingActionButton(
+  //     child: Icon(
+  //       Icons.edit,
+  //     ),
+  //     tooltip: "Tambah Bab",
+  //     onPressed: () => _customAlertDialog(context),
+  //   );
+  // }
 
   Widget _buildBody() {
     return Container(
@@ -88,7 +88,7 @@ class _MateriViewState extends State<MateriView> {
       onTap: () => Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => BabDescrib(
+            builder: (context) => BabDescribUser(
               data: data,
             ),
           )),

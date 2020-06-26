@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
@@ -10,6 +11,8 @@ import 'package:pkn_app/models/hasil.dart';
 import 'package:pkn_app/models/pertanyaan.dart';
 import 'package:pkn_app/models/siswa.dart';
 import 'package:pkn_app/view/user/quiz/hasil_quiz.dart';
+import 'package:http/http.dart' as http;
+import 'package:pkn_app/server/url.dart' as url;
 
 class Quiz extends StatefulWidget {
   static const routeName = '/Quiz';
@@ -34,7 +37,12 @@ class _QuizState extends State<Quiz> {
   List<String> _pilihUser = List<String>();
   List<String> _idPertanyaan = List<String>();
 
-  
+  Future<List> getHistory() async {
+    final result = await http.post(url.Url.home + "getHistorySiswa.php", body: {
+      "id_siswa": _siswa.getId().toString(),
+    });
+    return json.decode(result.body);
+  }
 
   getPertanyaan() async {
     pertanyaanList = await PertanyaanService().getAll();
@@ -51,11 +59,12 @@ class _QuizState extends State<Quiz> {
     });
   }
 
-  Future insert()async{
-    await HasilService().insertHasil(_siswa.getId(), json.encode(_idPertanyaan), json.encode(_pilihUser),_jumlahSoal, _jumlahBenar);
+  String hitung(String benar, String soal)=>(int.parse(benar) / int.parse(soal)*100).toString();
+
+  Future insert() async {
+    await HasilService().insertHasil(_siswa.getId(), json.encode(_idPertanyaan),
+        json.encode(_pilihUser), _jumlahSoal, _jumlahBenar);
   }
-
-
 
   @override
   void initState() {
@@ -66,6 +75,18 @@ class _QuizState extends State<Quiz> {
   @override
   void dispose() {
     super.dispose();
+  }
+
+  String formatDate(String strDate){
+    DateTime date = DateTime.parse(strDate);
+    int year = date.year;
+    int month = date.month;
+    int day = date.day;
+    String jam = date.hour.toString()+":"+date.minute.toString()+":"+date.second.toString();
+
+    String result = day.toString()+"-"+month.toString()+"-"+year.toString()+" "+jam;
+
+    return result;
   }
 
   @override
@@ -86,25 +107,26 @@ class _QuizState extends State<Quiz> {
       backgroundColor: Colors.deepOrange,
       elevation: 10,
       onPressed: () {
-        setState(()  {
-          if (_currentPilihan!="") {
+        setState(() {
+          if (_currentPilihan != "") {
             _pilihUser.add(_currentPilihan);
             _idPertanyaan.add(_currentIdPertanyaan);
-            if(_currentPilihan==_currentKunci){
+            if (_currentPilihan == _currentKunci) {
               _jumlahBenar++;
             }
             if (_currentSoal < _jumlahSoal - 1) {
               _currentSoal++;
               setOpsi();
               _selected = List.generate(20, (i) => false);
-              _currentPilihan="";
-              _currentIdPertanyaan="";
-              _currentKunci="";
+              _currentPilihan = "";
+              _currentIdPertanyaan = "";
+              _currentKunci = "";
             } else {
               insert();
-              Navigator.pushReplacementNamed(context, HasilQuiz.routeName,arguments: _siswa);
+              Navigator.pushReplacementNamed(context, HasilQuiz.routeName,
+                  arguments: _siswa);
             }
-          }else{
+          } else {
             Fluttertoast.showToast(msg: "Silahkan pilih jawaban!");
           }
         });
@@ -155,6 +177,7 @@ class _QuizState extends State<Quiz> {
 
   Widget _buildBodyPrepare() {
     return Container(
+      color: Colors.black12,
       child: Stack(
         children: [
           ClipPath(
@@ -167,11 +190,65 @@ class _QuizState extends State<Quiz> {
           SingleChildScrollView(
             child: Column(
               children: [
+                SizedBox(height: 10,),
+                Row(
+                  children: [
+                    Expanded(child: Center(child: Text("History Quiz",style: TextStyle(color: Colors.white, fontSize: 20,fontWeight: FontWeight.bold)))),
+                    Center(child: Text("3 Terakhir",style: TextStyle(color: Colors.white, fontSize: 16,fontWeight: FontWeight.bold))),
+                    SizedBox(width: 10,)
+                  ],
+                ),
+                SizedBox(height: 10,),
                 Container(
-                    // child: ListTile(
-                    //   title: ,
-                    // ),
-                    ),
+                  height: MediaQuery.of(context).size.height,
+                    child: FutureBuilder<List>(
+                  future: getHistory(),
+                  builder: (context, snapshot) {
+                    if (snapshot.hasError) print(snapshot.error);
+                    return snapshot.hasData
+                        ? ListView.builder(
+                            itemCount: snapshot.data.length,
+                            itemBuilder: (context, index) {
+                              return Container(
+                                decoration: BoxDecoration(
+
+                                color: Colors.white.withOpacity(0.8),
+                                borderRadius: BorderRadius.circular(20),
+                                ),
+                                padding: EdgeInsets.symmetric(vertical: 5),
+                                margin: EdgeInsets.symmetric(vertical: 8, horizontal: 15),
+                                child: ListTile(
+                                  leading: Container(
+                                    height: 65,
+                                    width: 65,
+                                    decoration: BoxDecoration(
+                                      color: Colors.deepOrange,
+                                      shape: BoxShape.circle,
+                                    ),
+                                    child: Center(child: Text("${index+1}",style: TextStyle(color: Colors.white,fontSize: 18),))
+                                  ),
+                                  subtitle: Text(formatDate(snapshot.data[index]['tgl_selesai']),style: TextStyle(
+                                    color: Colors.deepOrange
+                                  ),),
+                                  title: Text("Nilai : ${hitung(snapshot.data[index]['pilihan_benar'],snapshot.data[index]['jumlah_pertanyaan'])}",style: TextStyle(
+                                    color: Colors.deepPurple, fontWeight: FontWeight.bold)
+                                  ),
+                                  trailing: Column(
+                                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                    children: [
+                                      Text("Benar",style: TextStyle(
+                                    color: Colors.deepPurple, fontWeight: FontWeight.bold,fontSize: 17)),
+                                      Text("${snapshot.data[index]['pilihan_benar'] +" dari " +snapshot.data[index]['jumlah_pertanyaan']}",style: TextStyle(
+                                    color: Colors.deepPurple, fontWeight: FontWeight.bold,fontSize: 17))
+                                    ],
+                                  ),
+                                ),
+                              );
+                            },
+                          )
+                        : Center(child: CircularProgressIndicator());
+                  },
+                )),
               ],
             ),
           ),
@@ -228,8 +305,8 @@ class _QuizState extends State<Quiz> {
                               _selected = List.generate(20, (i) => false);
                               _selected[index] = !_selected[index];
                               _currentPilihan = _currentOpsi[index];
-                              _currentIdPertanyaan = _currentPertanyaan.getId()
-                              .toString();
+                              _currentIdPertanyaan =
+                                  _currentPertanyaan.getId().toString();
                               _currentKunci = _currentPertanyaan.getJawaban();
                             });
                           },

@@ -53,7 +53,8 @@ class _MyHomePageState extends State<MyHomePage> {
                       onPressed: () async {
                         final txt = await keyEditor.currentState.getText();
                         setState(() {
-                          result = txt;
+                          // result = txt;
+                          print(txt);
                         });
                       },
                       child: Text("Submit", style: TextStyle(color: Colors.white),),

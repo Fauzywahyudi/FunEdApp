@@ -44,6 +44,13 @@ class PertanyaanService{
     return pertanyaanList;
   }
 
+  Future<List> getJsonData()async{
+    final result = await http.post(url.Url.home + "getAllPertanyaan.php");
+    return json.decode(result.body);
+  }
+
+
+
   
 
 }

@@ -28,7 +28,7 @@ class _HasilQuizState extends State<HasilQuiz> {
 
   @override
   void initState() {
-    Timer(Duration(seconds: 1), (){
+    Timer(Duration(seconds: 2), (){
       getHasil();
     });
     super.initState();
@@ -114,7 +114,9 @@ class _HasilQuizState extends State<HasilQuiz> {
               bottom: 10,
               right: 10,
               child: InkWell(
-                onTap: (){},
+                onTap: (){
+                  Navigator.pushNamed(context, '/CekJawaban',arguments: _hasil);
+                },
                 borderRadius: BorderRadius.circular(20),
                 child: Container(
                   padding: EdgeInsets.all(10),

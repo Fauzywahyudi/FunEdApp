@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:pkn_app/assets/assets.dart';
 
-class MateriPelajaran extends StatefulWidget {
-  static const routeName = '/MateriPelajaran';
+class MateriOld extends StatefulWidget {
+  static const routeName = '/MateriOld';
   @override
-  _MateriPelajaranState createState() => _MateriPelajaranState();
+  _MateriOldState createState() => _MateriOldState();
 }
 
-class _MateriPelajaranState extends State<MateriPelajaran> {
+class _MateriOldState extends State<MateriOld> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
