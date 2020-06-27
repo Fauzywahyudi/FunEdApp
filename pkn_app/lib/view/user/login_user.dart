@@ -221,7 +221,7 @@ class _LoginUserState extends State<LoginUser> {
       arguments: siswa,
     );
     } catch (e) {
-      print("Nisn atau Password salah!");
+      print("Nisn atau Password salah! \n"+e.toString());
     }
   }
 }

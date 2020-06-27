@@ -53,6 +53,7 @@ class SiswaService {
       "nisn": nis,
       "password": pass,
     });
+    print(result.statusCode);
     List data = json.decode(result.body);
     Siswa siswa = Siswa(
         int.parse(data[0]['id_siswa']),

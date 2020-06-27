@@ -34,10 +34,10 @@ dependencies:
   flutter_custom_clippers: ^1.1.1
   html_editor: ^1.0.1
   fluttertoast: ^4.0.1
-  image_picker: ^0.6.7+2
-  path: ^1.7.0
-  webview_flutter: ^0.3.22+1
-  mime: ^0.9.6+3
+  # image_picker: ^0.6.7+2
+  # path: ^1.7.0
+  # webview_flutter: ^0.3.22+1
+  # mime: ^0.9.6+3
 
 dev_dependencies:
   flutter_test:
