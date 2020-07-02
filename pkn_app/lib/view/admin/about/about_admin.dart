@@ -106,15 +106,26 @@ class _AboutAdminState extends State<AboutAdmin> {
   Widget _buildBody() {
     return Container(
         padding: const EdgeInsets.all(8.0),
-      child: SingleChildScrollView(
-              child: Column(
-          children: [
-            Text(text,textAlign: TextAlign.justify, style: TextStyle(
-                  fontSize: 17,
-                ),),
-                SizedBox(height: 70,)
-          ],
-        ),
+      child: Stack(
+        children: [
+          Container(
+              width: MediaQuery.of(context).size.width,
+              // padding: EdgeInsets.all(10),
+              child: Image.asset(
+                url.Url.assetImage + "pancasilaOpacity.jpeg",
+                fit: BoxFit.fill,
+              )),
+          SingleChildScrollView(
+                  child: Column(
+              children: [
+                Text(text,textAlign: TextAlign.justify, style: TextStyle(
+                      fontSize: 17,
+                    ),),
+                    SizedBox(height: 70,)
+              ],
+            ),
+          ),
+        ],
       )
     );
   }

@@ -17,6 +17,8 @@ class LoginUser extends StatefulWidget {
 class _LoginUserState extends State<LoginUser> {
   TextEditingController tecUsername = TextEditingController();
   TextEditingController tecPassword = TextEditingController();
+  FocusNode focUsername = FocusNode();
+  FocusNode focPassword = FocusNode();
 
   @override
   Widget build(BuildContext context) {
@@ -108,7 +110,10 @@ class _LoginUserState extends State<LoginUser> {
               elevation: 2.0,
               borderRadius: BorderRadius.all(Radius.circular(30)),
               child: TextField(
+                focusNode: focUsername,
                 controller: tecUsername,
+                onSubmitted: (value) => FocusScope.of(context).requestFocus(focPassword),
+               textInputAction: TextInputAction.next, 
                 keyboardType: TextInputType.number,
                 onChanged: (String value) {},
                 cursorColor: Colors.deepOrange,
@@ -137,8 +142,10 @@ class _LoginUserState extends State<LoginUser> {
               elevation: 2.0,
               borderRadius: BorderRadius.all(Radius.circular(30)),
               child: TextField(
+                focusNode: focPassword,
                 controller: tecPassword,
                 obscureText: true,
+                onSubmitted: (value) => focPassword.unfocus(),
                 onChanged: (String value) {},
                 cursorColor: Colors.deepOrange,
                 decoration: InputDecoration(

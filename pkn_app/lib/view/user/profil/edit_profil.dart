@@ -4,6 +4,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:pkn_app/assets/assets.dart';
 import 'package:pkn_app/models/siswa.dart';
+import 'package:pkn_app/server/url.dart' as url;
 
 class EditProfil extends StatefulWidget {
   static const routeName = '/EditProfil';
@@ -96,205 +97,216 @@ class _EditProfilState extends State<EditProfil> {
     return Container(
       child: isLoading
           ? Center(child: CircularProgressIndicator())
-          : SingleChildScrollView(
-              child: Column(
-                children: [
-                  SizedBox(height: 20),
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 15),
-                    child: Material(
-                      elevation: 2.0,
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(30),
-                      ),
-                      child: TextField(
-                        controller: tecNisn,
-                        focusNode: focNisn,
-                        enabled: false,
-                        keyboardType: TextInputType.number,
-                        textInputAction: TextInputAction.next,
-                        onSubmitted: (v) {
-                          FocusScope.of(context).requestFocus(focNama);
-                        },
-                        onChanged: (String value) {},
-                        cursorColor: Colors.deepOrange,
-                        decoration: InputDecoration(
-                          hintText: "NIS Siswa",
-                          prefixIcon: Material(
-                            elevation: 0,
-                            borderRadius: BorderRadius.all(Radius.circular(30)),
-                            child: Icon(
-                              FontAwesomeIcons.idCard,
-                              color: Colors.deepPurple,
-                            ),
+          : Stack(
+            children: [
+              Container(
+              width: MediaQuery.of(context).size.width,
+              // padding: EdgeInsets.all(10),
+              child: Image.asset(
+                url.Url.assetImage + "pancasilaOpacity.jpeg",
+                fit: BoxFit.fill,
+              )),
+              SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      SizedBox(height: 20),
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 15),
+                        child: Material(
+                          elevation: 2.0,
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(30),
                           ),
-                          border: InputBorder.none,
-                          contentPadding: EdgeInsets.symmetric(
-                              horizontal: 25, vertical: 13),
-                        ),
-                      ),
-                    ),
-                  ),
-                  SizedBox(height: 20),
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 15),
-                    child: Material(
-                      elevation: 2.0,
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(30),
-                      ),
-                      child: TextField(
-                        controller: tecNama,
-                        focusNode: focNama,
-                        textCapitalization: TextCapitalization.words,
-                        textInputAction: TextInputAction.next,
-                        onSubmitted: (v) {
-                          FocusScope.of(context).requestFocus(focKelas);
-                        },
-                        onChanged: (String value) {},
-                        cursorColor: Colors.deepOrange,
-                        decoration: InputDecoration(
-                          hintText: "Nama Siswa",
-                          prefixIcon: Material(
-                            elevation: 0,
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(30),
-                            ),
-                            child: Icon(
-                              Icons.person,
-                              color: Colors.deepPurple,
-                            ),
-                          ),
-                          border: InputBorder.none,
-                          contentPadding: EdgeInsets.symmetric(
-                              horizontal: 25, vertical: 13),
-                        ),
-                      ),
-                    ),
-                  ),
-                  SizedBox(height: 20),
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 15),
-                    child: Material(
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(30),
-                      ),
-                      child: Column(
-                        children: [
-                          Row(
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
+                          child: TextField(
+                            controller: tecNisn,
+                            focusNode: focNisn,
+                            enabled: false,
+                            keyboardType: TextInputType.number,
+                            textInputAction: TextInputAction.next,
+                            onSubmitted: (v) {
+                              FocusScope.of(context).requestFocus(focNama);
+                            },
+                            onChanged: (String value) {},
+                            cursorColor: Colors.deepOrange,
+                            decoration: InputDecoration(
+                              hintText: "NIS Siswa",
+                              prefixIcon: Material(
+                                elevation: 0,
+                                borderRadius: BorderRadius.all(Radius.circular(30)),
                                 child: Icon(
-                                  Icons.wc,
+                                  FontAwesomeIcons.idCard,
                                   color: Colors.deepPurple,
                                 ),
                               ),
-                              Text("Jenis Kelamin",
-                                  style: TextStyle(fontSize: 17)),
-                              Expanded(child: Container()),
-                            ],
+                              border: InputBorder.none,
+                              contentPadding: EdgeInsets.symmetric(
+                                  horizontal: 25, vertical: 13),
+                            ),
                           ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
+                        ),
+                      ),
+                      SizedBox(height: 20),
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 15),
+                        child: Material(
+                          elevation: 2.0,
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(30),
+                          ),
+                          child: TextField(
+                            controller: tecNama,
+                            focusNode: focNama,
+                            textCapitalization: TextCapitalization.words,
+                            textInputAction: TextInputAction.next,
+                            onSubmitted: (v) {
+                              FocusScope.of(context).requestFocus(focKelas);
+                            },
+                            onChanged: (String value) {},
+                            cursorColor: Colors.deepOrange,
+                            decoration: InputDecoration(
+                              hintText: "Nama Siswa",
+                              prefixIcon: Material(
+                                elevation: 0,
+                                borderRadius: BorderRadius.all(
+                                  Radius.circular(30),
+                                ),
+                                child: Icon(
+                                  Icons.person,
+                                  color: Colors.deepPurple,
+                                ),
+                              ),
+                              border: InputBorder.none,
+                              contentPadding: EdgeInsets.symmetric(
+                                  horizontal: 25, vertical: 13),
+                            ),
+                          ),
+                        ),
+                      ),
+                      SizedBox(height: 20),
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 15),
+                        child: Material(
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(30),
+                          ),
+                          child: Column(
                             children: [
-                              Radio(
-                                  value: "Laki-laki",
-                                  groupValue: grupJk,
-                                  onChanged: (value) => rdListener(value)),
-                              Text("Laki-laki"),
-                              Radio(
-                                  value: "Perempuan",
-                                  groupValue: grupJk,
-                                  onChanged: (value) => rdListener(value)),
-                              Text("Perempuan"),
-                              SizedBox(
-                                width: 20,
+                              Row(
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Icon(
+                                      Icons.wc,
+                                      color: Colors.deepPurple,
+                                    ),
+                                  ),
+                                  Text("Jenis Kelamin",
+                                      style: TextStyle(fontSize: 17)),
+                                  Expanded(child: Container()),
+                                ],
+                              ),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: [
+                                  Radio(
+                                      value: "Laki-laki",
+                                      groupValue: grupJk,
+                                      onChanged: (value) => rdListener(value)),
+                                  Text("Laki-laki"),
+                                  Radio(
+                                      value: "Perempuan",
+                                      groupValue: grupJk,
+                                      onChanged: (value) => rdListener(value)),
+                                  Text("Perempuan"),
+                                  SizedBox(
+                                    width: 20,
+                                  )
+                                ],
                               )
                             ],
-                          )
-                        ],
-                      ),
-                    ),
-                  ),
-                  SizedBox(height: 20),
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 15),
-                    child: Material(
-                      elevation: 2.0,
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(30),
-                      ),
-                      child: TextField(
-                        controller: tecKelas,
-                        focusNode: focKelas,
-                        textCapitalization: TextCapitalization.words,
-                        textInputAction: TextInputAction.next,
-                        onSubmitted: (v) {
-                          FocusScope.of(context).requestFocus(focJurusan);
-                        },
-                        onChanged: (String value) {},
-                        cursorColor: Colors.deepOrange,
-                        decoration: InputDecoration(
-                          hintText: "Kelas",
-                          prefixIcon: Material(
-                            elevation: 0,
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(30),
-                            ),
-                            child: Icon(
-                              FontAwesomeIcons.solidCopyright,
-                              color: Colors.deepPurple,
-                            ),
                           ),
-                          border: InputBorder.none,
-                          contentPadding: EdgeInsets.symmetric(
-                              horizontal: 25, vertical: 13),
                         ),
                       ),
-                    ),
-                  ),
-                  SizedBox(height: 20),
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 15),
-                    child: Material(
-                      elevation: 2.0,
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(30),
-                      ),
-                      child: TextField(
-                        controller: tecJurusan,
-                        focusNode: focJurusan,
-                        textCapitalization: TextCapitalization.words,
-                        textInputAction: TextInputAction.done,
-                        onSubmitted: (v) {
-                          focJurusan.unfocus();
-                        },
-                        onChanged: (String value) {},
-                        cursorColor: Colors.deepOrange,
-                        decoration: InputDecoration(
-                          hintText: "Jurusan",
-                          prefixIcon: Material(
-                            elevation: 0,
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(30),
-                            ),
-                            child: Icon(
-                              Icons.school,
-                              color: Colors.deepPurple,
+                      SizedBox(height: 20),
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 15),
+                        child: Material(
+                          elevation: 2.0,
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(30),
+                          ),
+                          child: TextField(
+                            controller: tecKelas,
+                            focusNode: focKelas,
+                            textCapitalization: TextCapitalization.words,
+                            textInputAction: TextInputAction.next,
+                            onSubmitted: (v) {
+                              FocusScope.of(context).requestFocus(focJurusan);
+                            },
+                            onChanged: (String value) {},
+                            cursorColor: Colors.deepOrange,
+                            decoration: InputDecoration(
+                              hintText: "Kelas",
+                              prefixIcon: Material(
+                                elevation: 0,
+                                borderRadius: BorderRadius.all(
+                                  Radius.circular(30),
+                                ),
+                                child: Icon(
+                                  FontAwesomeIcons.solidCopyright,
+                                  color: Colors.deepPurple,
+                                ),
+                              ),
+                              border: InputBorder.none,
+                              contentPadding: EdgeInsets.symmetric(
+                                  horizontal: 25, vertical: 13),
                             ),
                           ),
-                          border: InputBorder.none,
-                          contentPadding: EdgeInsets.symmetric(
-                              horizontal: 25, vertical: 13),
                         ),
                       ),
-                    ),
+                      SizedBox(height: 20),
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 15),
+                        child: Material(
+                          elevation: 2.0,
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(30),
+                          ),
+                          child: TextField(
+                            controller: tecJurusan,
+                            focusNode: focJurusan,
+                            textCapitalization: TextCapitalization.words,
+                            textInputAction: TextInputAction.done,
+                            onSubmitted: (v) {
+                              focJurusan.unfocus();
+                            },
+                            onChanged: (String value) {},
+                            cursorColor: Colors.deepOrange,
+                            decoration: InputDecoration(
+                              hintText: "Jurusan",
+                              prefixIcon: Material(
+                                elevation: 0,
+                                borderRadius: BorderRadius.all(
+                                  Radius.circular(30),
+                                ),
+                                child: Icon(
+                                  Icons.school,
+                                  color: Colors.deepPurple,
+                                ),
+                              ),
+                              border: InputBorder.none,
+                              contentPadding: EdgeInsets.symmetric(
+                                  horizontal: 25, vertical: 13),
+                            ),
+                          ),
+                        ),
+                      ),
+                      SizedBox(height: 20),
+                    ],
                   ),
-                  SizedBox(height: 20),
-                ],
-              ),
-            ),
+                ),
+            ],
+          ),
     );
   }
 

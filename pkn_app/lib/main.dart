@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:pkn_app/view/admin/about/about_admin.dart';
 import 'package:pkn_app/view/admin/about/edit_about.dart';
 import 'package:pkn_app/view/admin/login_admin.dart';
-import 'package:pkn_app/view/admin/materi_view.dart';
+import 'package:pkn_app/view/admin/materi/edit_bab.dart';
+import 'package:pkn_app/view/admin/materi/materi_view.dart';
 import 'package:pkn_app/view/admin/home_admin.dart';
 import 'package:pkn_app/view/admin/pertanyaan/add_pertanyaan.dart';
 import 'package:pkn_app/view/admin/pertanyaan/pertanyaanView.dart';
@@ -55,6 +56,7 @@ class MyApp extends StatelessWidget {
         LoginAdmin.routeName: (context) => LoginAdmin(),
         HomeAdmin.routeName: (context) => HomeAdmin(),
         MateriView.routeName: (context) => MateriView(),
+        EditBab.routeName: (context) => EditBab(),
         PertanyaanView.routeName: (context) => PertanyaanView(),
         AddPertanyaan.routeName: (context) => AddPertanyaan(),
         AboutAdmin.routeName: (context) =>AboutAdmin(),

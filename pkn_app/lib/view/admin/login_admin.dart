@@ -13,6 +13,8 @@ class LoginAdmin extends StatefulWidget {
 class _LoginAdminState extends State<LoginAdmin> {
   TextEditingController tecUsername = TextEditingController();
   TextEditingController tecPassword = TextEditingController();
+  FocusNode focUsername = FocusNode();
+  FocusNode focPassword = FocusNode();
 
   @override
   Widget build(BuildContext context) {
@@ -57,7 +59,8 @@ class _LoginAdminState extends State<LoginAdmin> {
                         width: 200,
                         child: Hero(
                             tag: "logo",
-                            child: Image.asset(url.Url.assetImage+"logo_white.png")),
+                            child: Image.asset(
+                                url.Url.assetImage + "logo_white.png")),
                       ),
                       SizedBox(
                         height: 20,
@@ -74,10 +77,13 @@ class _LoginAdminState extends State<LoginAdmin> {
               Container(
                 child: Row(
                   children: [
-                    FloatingActionButton(onPressed: ()=>Navigator.pop(context),
-                    mini: true,
-                    child: Icon(Icons.arrow_back_ios,size: 15,
-                    ),
+                    FloatingActionButton(
+                      onPressed: () => Navigator.pop(context),
+                      mini: true,
+                      child: Icon(
+                        Icons.arrow_back_ios,
+                        size: 15,
+                      ),
                     ),
                     Expanded(child: Container()),
                   ],
@@ -103,7 +109,11 @@ class _LoginAdminState extends State<LoginAdmin> {
               elevation: 2.0,
               borderRadius: BorderRadius.all(Radius.circular(30)),
               child: TextField(
+                focusNode: focUsername,
                 controller: tecUsername,
+                textInputAction: TextInputAction.next,
+                onSubmitted: (value) =>
+                    FocusScope.of(context).requestFocus(focPassword),
                 onChanged: (String value) {},
                 cursorColor: Colors.deepOrange,
                 decoration: InputDecoration(
@@ -132,7 +142,9 @@ class _LoginAdminState extends State<LoginAdmin> {
               borderRadius: BorderRadius.all(Radius.circular(30)),
               child: TextField(
                 controller: tecPassword,
+                focusNode: focPassword,
                 obscureText: true,
+                onSubmitted: (value) => focPassword.unfocus(),
                 onChanged: (String value) {},
                 cursorColor: Colors.deepOrange,
                 decoration: InputDecoration(
@@ -183,12 +195,12 @@ class _LoginAdminState extends State<LoginAdmin> {
         "username": tecUsername.text,
         "password": tecPassword.text,
       });
-      String msg = result.body.substring(0,1);
+      String msg = result.body.substring(0, 1);
       List data = json.decode(result.body.substring(1));
-      if (msg=="1") {
+      if (msg == "1") {
         Navigator.pop(context);
         Navigator.pushReplacementNamed(context, "/HomeAdmin");
-      } else if(msg=="0"){
+      } else if (msg == "0") {
         print("Gagal Login");
       }
     } catch (e) {}

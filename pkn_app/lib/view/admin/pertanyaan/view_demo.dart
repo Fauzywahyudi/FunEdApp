@@ -84,84 +84,95 @@ class _DemoPertanyaanState extends State<DemoPertanyaan> {
   Widget _buildBody() {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-      child: SingleChildScrollView(
-        child: Column(
-          children: [
-            Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.all(Radius.circular(10)),
-                color: Colors.deepPurple.withOpacity(0.2),
-              ),
-              margin: EdgeInsets.symmetric(vertical: 5),
-              child: ListTile(
-                title: Text(
-                  widget.data['pertanyaan'],
-                  textAlign: TextAlign.justify,
+      child: Stack(
+        children: [
+          Container(
+              width: MediaQuery.of(context).size.width,
+              // padding: EdgeInsets.all(10),
+              child: Image.asset(
+                url.Url.assetImage + "pancasilaOpacity.jpeg",
+                fit: BoxFit.fill,
+              )),
+          SingleChildScrollView(
+            child: Column(
+              children: [
+                Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.all(Radius.circular(10)),
+                    color: Colors.deepPurple.withOpacity(0.2),
+                  ),
+                  margin: EdgeInsets.symmetric(vertical: 5),
+                  child: ListTile(
+                    title: Text(
+                      widget.data['pertanyaan'],
+                      textAlign: TextAlign.justify,
+                    ),
+                  ),
                 ),
-              ),
-            ),
-            SizedBox(height: 20.0),
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 10),
-              child: Row(
-                children: [
-                  Text(
-                    "Pilih satu jawaban di bawah ini!",
-                    style: TextStyle(fontWeight: FontWeight.bold),
+                SizedBox(height: 20.0),
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 10),
+                  child: Row(
+                    children: [
+                      Text(
+                        "Pilih satu jawaban di bawah ini!",
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                      Expanded(
+                        child: Container(),
+                      ),
+                      Text(
+                        !cek ? "" : kebenaran ? "Benar" : "Salah",
+                        style: TextStyle(
+                            color: kebenaran ? Colors.green : Colors.red,
+                            fontWeight: FontWeight.bold),
+                      ),
+                    ],
                   ),
-                  Expanded(
-                    child: Container(),
+                ),
+                SizedBox(height: 20.0),
+                Container(
+                  height: MediaQuery.of(context).size.height /2 ,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.all(Radius.circular(10)),
                   ),
-                  Text(
-                    !cek ? "" : kebenaran ? "Benar" : "Salah",
-                    style: TextStyle(
-                        color: kebenaran ? Colors.green : Colors.red,
-                        fontWeight: FontWeight.bold),
+                  margin: EdgeInsets.symmetric(vertical: 5),
+                  child: ListView.builder(
+                    itemCount: opsi.length,
+                    itemBuilder: (context, index) {
+                      return opsi == null
+                          ? Container()
+                          : Container(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.all(Radius.circular(10)),
+                                color: _selected[index]
+                                    ? Colors.deepPurple.withOpacity(0.5)
+                                    : Colors.deepPurple.withOpacity(0.2),
+                              ),
+                              margin: EdgeInsets.symmetric(vertical: 5),
+                              child: ListTile(
+                                title: Text(opsi[index],textAlign: TextAlign.justify,),
+                                onTap: () {
+                                  setState(() {
+                                    cek = false;
+                                    _selected = List.generate(20, (i) => false);
+                                    _selected[index] = !_selected[index];
+                                    konfirmJawaban(
+                                        widget.data['jawaban'], opsi[index]);
+                                  });
+                                },
+                              ),
+                            );
+                    },
                   ),
-                ],
-              ),
+                ),
+                Container(
+                  height: 50,
+                )
+              ],
             ),
-            SizedBox(height: 20.0),
-            Container(
-              height: MediaQuery.of(context).size.height /2 ,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.all(Radius.circular(10)),
-              ),
-              margin: EdgeInsets.symmetric(vertical: 5),
-              child: ListView.builder(
-                itemCount: opsi.length,
-                itemBuilder: (context, index) {
-                  return opsi == null
-                      ? Container()
-                      : Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.all(Radius.circular(10)),
-                            color: _selected[index]
-                                ? Colors.deepPurple.withOpacity(0.5)
-                                : Colors.deepPurple.withOpacity(0.2),
-                          ),
-                          margin: EdgeInsets.symmetric(vertical: 5),
-                          child: ListTile(
-                            title: Text(opsi[index],textAlign: TextAlign.justify,),
-                            onTap: () {
-                              setState(() {
-                                cek = false;
-                                _selected = List.generate(20, (i) => false);
-                                _selected[index] = !_selected[index];
-                                konfirmJawaban(
-                                    widget.data['jawaban'], opsi[index]);
-                              });
-                            },
-                          ),
-                        );
-                },
-              ),
-            ),
-            Container(
-              height: 50,
-            )
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

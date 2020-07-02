@@ -3,6 +3,7 @@ import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:pkn_app/view/category.dart';
 import 'package:pkn_app/view/demo_values.dart';
+import 'package:pkn_app/server/url.dart' as url;
 // import 'quiz_options.dart';
 
 class HomeAdmin extends StatefulWidget {
@@ -47,6 +48,13 @@ class _HomeAdminState extends State<HomeAdmin> {
     return Scaffold(
       body: Stack(
         children: <Widget>[
+          Container(
+              width: MediaQuery.of(context).size.width,
+              // padding: EdgeInsets.all(10),
+              child: Image.asset(
+                url.Url.assetImage + "pancasilaOpacity.jpeg",
+                fit: BoxFit.fill,
+              )),
           ClipPath(
             clipper: WaveClipperTwo(),
             child: Container(

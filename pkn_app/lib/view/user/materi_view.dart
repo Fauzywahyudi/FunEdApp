@@ -58,27 +58,38 @@ class _MateriPelajaranState extends State<MateriPelajaran> {
   Widget _buildBody() {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-      child: FutureBuilder<List>(
-        future: getData(),
-        builder: (context, snapshot) {
-          if (snapshot.hasError) print(snapshot.error);
-          return snapshot.hasData
-              ? ListView.builder(
-                physics: BouncingScrollPhysics(),
-                  itemCount: snapshot.data.length,
-                  itemBuilder: (context, index) {
-                    return Column(
-                      children: [
-                        _buildBab(snapshot.data[index]),
-                        SizedBox(
-                          height: 5,
-                        )
-                      ],
-                    );
-                  },
-                )
-              : Center(child: CircularProgressIndicator());
-        },
+      child: Stack(
+        children: [
+          Container(
+              width: MediaQuery.of(context).size.width,
+              // padding: EdgeInsets.all(10),
+              child: Image.asset(
+                url.Url.assetImage + "pancasilaOpacity.jpeg",
+                fit: BoxFit.fill,
+              )),
+          FutureBuilder<List>(
+            future: getData(),
+            builder: (context, snapshot) {
+              if (snapshot.hasError) print(snapshot.error);
+              return snapshot.hasData
+                  ? ListView.builder(
+                      physics: BouncingScrollPhysics(),
+                      itemCount: snapshot.data.length,
+                      itemBuilder: (context, index) {
+                        return Column(
+                          children: [
+                            _buildBab(snapshot.data[index]),
+                            SizedBox(
+                              height: 5,
+                            )
+                          ],
+                        );
+                      },
+                    )
+                  : Center(child: CircularProgressIndicator());
+            },
+          ),
+        ],
       ),
     );
   }
@@ -170,10 +181,8 @@ class _MateriPelajaranState extends State<MateriPelajaran> {
 
   Future<List> getData() async {
     final result = await http.post(url.Url.home + "getBab.php");
-    if(mounted){
-      setState(() {
-        
-      });
+    if (mounted) {
+      setState(() {});
     }
     return json.decode(result.body);
   }
@@ -293,8 +302,8 @@ class _MateriPelajaranState extends State<MateriPelajaran> {
     await http.post(url.Url.home + "addBab.php",
         body: {"bab": bab, "nama_bab": nama});
     Navigator.pop(context);
-    tecNamaBab.text="";
-    tecNoBab.text="";
+    tecNamaBab.text = "";
+    tecNoBab.text = "";
     setState(() {});
   }
 }

@@ -117,14 +117,25 @@ class _SubBabDescrUserState extends State<SubBabDescrUser> {
   Widget _buildBody() {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 10, vertical: 0),
-      child: SingleChildScrollView(
-        child: Column(
-          children: [
-            SizedBox(height: 10),
-            Text(validasiIsi(), textAlign: TextAlign.justify),
-            SizedBox(height: 10),
-          ],
-        ),
+      child: Stack(
+        children: [
+          Container(
+              width: MediaQuery.of(context).size.width,
+              // padding: EdgeInsets.all(10),
+              child: Image.asset(
+                url.Url.assetImage + "pancasilaOpacity.jpeg",
+                fit: BoxFit.fill,
+              )),
+          SingleChildScrollView(
+            child: Column(
+              children: [
+                SizedBox(height: 10),
+                Text(validasiIsi(), textAlign: TextAlign.justify),
+                SizedBox(height: 10),
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }

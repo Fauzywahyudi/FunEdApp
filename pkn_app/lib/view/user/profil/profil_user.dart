@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pkn_app/assets/assets.dart';
 import 'package:pkn_app/models/siswa.dart';
+import 'package:pkn_app/server/url.dart' as url;
 
 class ProfilUser extends StatefulWidget {
   static const routeName = '/ProfilUser';
@@ -54,13 +55,24 @@ class _ProfilUserState extends State<ProfilUser> {
 
   Widget _buildBody() {
     return Container(
-      child: ListView(
+      child: Stack(
         children: [
-          _itemData(this._siswa.getNis(), "NISN"),
-          _itemData(this._siswa.getNama(), "Nama Lengkap"),
-          _itemData(this._siswa.getJk(), "Jenis Kelamin"),
-          _itemData(this._siswa.getKelas(), "Kelas"),
-          _itemData(this._siswa.getJurusan(), "Jurusan"),
+          Container(
+              width: MediaQuery.of(context).size.width,
+              // padding: EdgeInsets.all(10),
+              child: Image.asset(
+                url.Url.assetImage + "pancasilaOpacity.jpeg",
+                fit: BoxFit.fill,
+              )),
+          ListView(
+            children: [
+              _itemData(this._siswa.getNis(), "NISN"),
+              _itemData(this._siswa.getNama(), "Nama Lengkap"),
+              _itemData(this._siswa.getJk(), "Jenis Kelamin"),
+              _itemData(this._siswa.getKelas(), "Kelas"),
+              _itemData(this._siswa.getJurusan(), "Jurusan"),
+            ],
+          ),
         ],
       ),
     );

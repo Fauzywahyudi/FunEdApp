@@ -180,6 +180,11 @@ class _QuizState extends State<Quiz> {
       color: Colors.black12,
       child: Stack(
         children: [
+          Container(
+            width: MediaQuery.of(context).size.width,
+            // padding: EdgeInsets.all(10),
+            child: Image.asset(url.Url.assetImage+"pancasilaOpacity.jpeg", fit: BoxFit.fill,)
+          ),
           ClipPath(
             clipper: WaveClipperTwo(),
             child: Container(
@@ -187,6 +192,7 @@ class _QuizState extends State<Quiz> {
               height: 250,
             ),
           ),
+          
           SingleChildScrollView(
             child: Column(
               children: [
@@ -216,7 +222,7 @@ class _QuizState extends State<Quiz> {
                                 borderRadius: BorderRadius.circular(20),
                                 ),
                                 padding: EdgeInsets.symmetric(vertical: 5),
-                                margin: EdgeInsets.symmetric(vertical: 8, horizontal: 15),
+                                margin: EdgeInsets.symmetric(vertical: 3, horizontal: 15),
                                 child: ListTile(
                                   leading: Container(
                                     height: 65,
@@ -265,6 +271,11 @@ class _QuizState extends State<Quiz> {
           ? Container()
           : Stack(
               children: [
+                Container(
+            width: MediaQuery.of(context).size.width,
+            // padding: EdgeInsets.all(10),
+            child: Image.asset(url.Url.assetImage+"pancasilaOpacity.jpeg", fit: BoxFit.fill,)
+          ),
                 ClipPath(
                   clipper: WaveClipperTwo(),
                   child: Container(

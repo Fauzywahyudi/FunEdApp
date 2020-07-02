@@ -45,17 +45,26 @@ class _GuideState extends State<Guide> {
   Widget _buildBody() {
     return Container(
       padding: EdgeInsets.all(10),
-      child: FutureBuilder<List>(future: getData(),
-      builder: (context, snapshot) {
-        if(snapshot.hasError)print(snapshot.error);
-        return snapshot.hasData ?
-        ListView.builder(itemCount: snapshot.data.length,
-        itemBuilder: (context, index) {
-          return Text(snapshot.data[index]['text'],textAlign: TextAlign.justify, style: TextStyle(
-            fontSize: 17,
-          ),);
-        },) : Center(child: CircularProgressIndicator(),);
-      },)
+      child: Stack(
+        children: [
+          Container(
+            width: MediaQuery.of(context).size.width,
+            // padding: EdgeInsets.all(10),
+            child: Image.asset(url.Url.assetImage+"pancasilaOpacity.jpeg", fit: BoxFit.fill,)
+          ),
+          FutureBuilder<List>(future: getData(),
+          builder: (context, snapshot) {
+            if(snapshot.hasError)print(snapshot.error);
+            return snapshot.hasData ?
+            ListView.builder(itemCount: snapshot.data.length,
+            itemBuilder: (context, index) {
+              return Text(snapshot.data[index]['text'],textAlign: TextAlign.justify, style: TextStyle(
+                fontSize: 17,
+              ),);
+            },) : Center(child: CircularProgressIndicator(),);
+          },),
+        ],
+      )
     );
   }
 }

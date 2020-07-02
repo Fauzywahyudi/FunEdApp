@@ -48,26 +48,37 @@ class _BabDescribUserState extends State<BabDescribUser> {
   Widget _buildBody(){
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-      child: FutureBuilder<List>(
-        future: getData(),
-        builder: (context, snapshot) {
-          if (snapshot.hasError) print(snapshot.error);
-          return snapshot.hasData
-              ? ListView.builder(
-                  itemCount: snapshot.data.length,
-                  itemBuilder: (context, index) {
-                    return Column(
-                      children: [
-                        _buildBab(snapshot.data[index]),
-                        SizedBox(
-                          height: 5,
-                        )
-                      ],
-                    );
-                  },
-                )
-              : Center(child: CircularProgressIndicator());
-        },
+      child: Stack(
+        children: [
+          Container(
+              width: MediaQuery.of(context).size.width,
+              // padding: EdgeInsets.all(10),
+              child: Image.asset(
+                url.Url.assetImage + "pancasilaOpacity.jpeg",
+                fit: BoxFit.fill,
+              )),
+          FutureBuilder<List>(
+            future: getData(),
+            builder: (context, snapshot) {
+              if (snapshot.hasError) print(snapshot.error);
+              return snapshot.hasData
+                  ? ListView.builder(
+                      itemCount: snapshot.data.length,
+                      itemBuilder: (context, index) {
+                        return Column(
+                          children: [
+                            _buildBab(snapshot.data[index]),
+                            SizedBox(
+                              height: 5,
+                            )
+                          ],
+                        );
+                      },
+                    )
+                  : Center(child: CircularProgressIndicator());
+            },
+          ),
+        ],
       ),
     );
   }

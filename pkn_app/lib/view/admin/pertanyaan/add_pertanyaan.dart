@@ -77,116 +77,127 @@ class _AddPertanyaanState extends State<AddPertanyaan> {
             borderRadius: BorderRadius.circular(20.0),
             color: Colors.white,
           ),
-          child: SingleChildScrollView(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
-                SizedBox(height: 20.0),
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 10),
-                  child: Material(
-                    color: Colors.deepPurple.withOpacity(0.5),
-                    borderRadius: BorderRadius.all(Radius.circular(10)),
-                    child: TextField(
-                        maxLines: 10,
-                        minLines: 1,
-                        style: TextStyle(color: Colors.white),
-                        controller: tecPertanyaan,
-                        onChanged: (String value) {},
-                        cursorColor: Colors.deepPurple,
-                        textCapitalization: TextCapitalization.words,
-                        decoration: InputDecoration(
-                            hintText: "Pertanyaan",
-                            hintStyle: TextStyle(color: Colors.white54),
-                            border: InputBorder.none,
-                            contentPadding: EdgeInsets.symmetric(
-                                horizontal: 10, vertical: 13))),
-                  ),
-                ),
-                SizedBox(height: 10.0),
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 10),
-                  child: Material(
-                    color: Colors.deepPurple.withOpacity(0.5),
-                    borderRadius: BorderRadius.all(Radius.circular(10)),
-                    child: TextField(
-                      maxLines: 3,
-                      minLines: 1,
-                      style: TextStyle(color: Colors.white),
-                      controller: tecJawaban,
-                      onChanged: (String value) {},
-                      cursorColor: Colors.deepPurple,
-                      decoration: InputDecoration(
-                          hintText: "Jawaban",
-                          hintStyle: TextStyle(color: Colors.white54),
-                          border: InputBorder.none,
-                          contentPadding: EdgeInsets.symmetric(
-                              horizontal: 10, vertical: 13)),
-                    ),
-                  ),
-                ),
-                SizedBox(height: 20.0),
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 10),
-                  child: Row(
-                    children: [
-                      Text(
-                        "Opsi/Pilihan",
-                        style: TextStyle(fontWeight: FontWeight.bold),
+          child: Stack(
+            children: [
+              Container(
+              width: MediaQuery.of(context).size.width,
+              // padding: EdgeInsets.all(10),
+              child: Image.asset(
+                url.Url.assetImage + "pancasilaOpacity.jpeg",
+                fit: BoxFit.fill,
+              )),
+              SingleChildScrollView(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    SizedBox(height: 20.0),
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 10),
+                      child: Material(
+                        color: Colors.deepPurple.withOpacity(0.5),
+                        borderRadius: BorderRadius.all(Radius.circular(10)),
+                        child: TextField(
+                            maxLines: 10,
+                            minLines: 1,
+                            style: TextStyle(color: Colors.white),
+                            controller: tecPertanyaan,
+                            onChanged: (String value) {},
+                            cursorColor: Colors.deepPurple,
+                            textCapitalization: TextCapitalization.words,
+                            decoration: InputDecoration(
+                                hintText: "Pertanyaan",
+                                hintStyle: TextStyle(color: Colors.white54),
+                                border: InputBorder.none,
+                                contentPadding: EdgeInsets.symmetric(
+                                    horizontal: 10, vertical: 13))),
                       ),
-                      Expanded(child: Container()),
-                      FlatButton.icon(
-                          color: Colors.deepPurple.withOpacity(0.5),
-                          onPressed: () {
-                            _customAlertDialog(context);
-                          },
-                          icon: Icon(
-                            Icons.add,
-                            color: Colors.white70,
+                    ),
+                    SizedBox(height: 10.0),
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 10),
+                      child: Material(
+                        color: Colors.deepPurple.withOpacity(0.5),
+                        borderRadius: BorderRadius.all(Radius.circular(10)),
+                        child: TextField(
+                          maxLines: 3,
+                          minLines: 1,
+                          style: TextStyle(color: Colors.white),
+                          controller: tecJawaban,
+                          onChanged: (String value) {},
+                          cursorColor: Colors.deepPurple,
+                          decoration: InputDecoration(
+                              hintText: "Jawaban",
+                              hintStyle: TextStyle(color: Colors.white54),
+                              border: InputBorder.none,
+                              contentPadding: EdgeInsets.symmetric(
+                                  horizontal: 10, vertical: 13)),
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: 20.0),
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 10),
+                      child: Row(
+                        children: [
+                          Text(
+                            "Opsi/Pilihan",
+                            style: TextStyle(fontWeight: FontWeight.bold),
                           ),
-                          label: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Text(
-                              "Tambah Opsi",
-                              style: TextStyle(color: Colors.white70),
-                            ),
-                          ))
-                    ],
-                  ),
-                ),
-                Container(
-                  padding: EdgeInsets.symmetric(horizontal: 10),
-                  height: MediaQuery.of(context).size.height * 0.5,
-                  child: ListView.builder(
-                      itemCount: opsi.length,
-                      itemBuilder: (context, index) {
-                        return opsi == null
-                            ? Container(
-                                child: Text("Belum ada data"),
-                              )
-                            : Container(
-                                decoration: BoxDecoration(
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(10)),
-                                  color: Colors.deepPurple.withOpacity(0.2),
+                          Expanded(child: Container()),
+                          FlatButton.icon(
+                              color: Colors.deepPurple.withOpacity(0.5),
+                              onPressed: () {
+                                _customAlertDialog(context);
+                              },
+                              icon: Icon(
+                                Icons.add,
+                                color: Colors.white70,
+                              ),
+                              label: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Text(
+                                  "Tambah Opsi",
+                                  style: TextStyle(color: Colors.white70),
                                 ),
-                                margin: EdgeInsets.symmetric(vertical: 5),
-                                child: ListTile(
-                                  title: Text(opsi[index]),
-                                  trailing: IconButton(
-                                    icon: Icon(Icons.close),
-                                    onPressed: () {
-                                      setState(() {
-                                        opsi.removeAt(index);
-                                      });
-                                    },
-                                  ),
-                                ),
-                              );
-                      }),
+                              ))
+                        ],
+                      ),
+                    ),
+                    Container(
+                      padding: EdgeInsets.symmetric(horizontal: 10),
+                      height: MediaQuery.of(context).size.height * 0.5,
+                      child: ListView.builder(
+                          itemCount: opsi.length,
+                          itemBuilder: (context, index) {
+                            return opsi == null
+                                ? Container(
+                                    child: Text("Belum ada data"),
+                                  )
+                                : Container(
+                                    decoration: BoxDecoration(
+                                      borderRadius:
+                                          BorderRadius.all(Radius.circular(10)),
+                                      color: Colors.deepPurple.withOpacity(0.2),
+                                    ),
+                                    margin: EdgeInsets.symmetric(vertical: 5),
+                                    child: ListTile(
+                                      title: Text(opsi[index]),
+                                      trailing: IconButton(
+                                        icon: Icon(Icons.close),
+                                        onPressed: () {
+                                          setState(() {
+                                            opsi.removeAt(index);
+                                          });
+                                        },
+                                      ),
+                                    ),
+                                  );
+                          }),
+                    ),
+                  ],
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),

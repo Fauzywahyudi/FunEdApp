@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:pkn_app/assets/assets.dart';
@@ -16,24 +18,35 @@ class AddSubBab extends StatefulWidget {
 class _AddSubBabState extends State<AddSubBab> {
   TextEditingController tecNamaSubBab = TextEditingController();
   TextEditingController tecIsiSubBab = TextEditingController();
+  TextEditingController tecUrl = TextEditingController();
+  bool addGambar = false;
+  bool isLihatGambar = false;
   TextStyle titleStyle = TextStyle(
       fontSize: 20.0, color: Colors.black, fontWeight: FontWeight.bold);
+  List<String> urlImages = List<String>();
 
   Future save(String nama, String isi, String idbab) async {
     await http.post(url.Url.home + "addSubBab.php",
-        body: {"nama_subbab": nama, "isi_subbab": isi, "id_bab": idbab});
+        body: {
+          "nama_subbab": nama, 
+          "isi_subbab": isi, 
+          "id_bab": idbab,
+          "gambar": json.encode(urlImages),
+          });
     Navigator.pop(context);
     tecNamaSubBab.text = "";
     tecIsiSubBab.text = "";
     setState(() {});
   }
 
+  Future<List> getImage() async {}
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: _buildAppBar(),
-      floatingActionButton: _buildFAB(),
-      body: _buildBody(),
+      floatingActionButton: isLihatGambar ? null :_buildFAB(),
+      body: isLihatGambar ? _buildBodyLihatGambar(): _buildBody(),
     );
   }
 
@@ -48,8 +61,69 @@ class _AddSubBabState extends State<AddSubBab> {
 
   Widget _buildAppBar() {
     return AppBar(
-      leading: backIos(Colors.white, context),
-      title: Text("Tambah Sub-Bab"),
+      leading: isLihatGambar
+          ? IconButton(
+              icon: Icon(Icons.close),
+              onPressed: () {
+                setState(() {
+                  isLihatGambar = !isLihatGambar;
+                });
+              })
+          : backIos(Colors.white, context),
+      title: Text("${isLihatGambar ? "Gambar": "Tambah Sub-Bab"}"),
+    );
+  }
+
+  Widget _buildBodyLihatGambar(){
+    return Container(
+      child: ListView.builder(
+        itemCount: urlImages.length,
+        itemBuilder: (context, index) {
+          return Column(
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Center(
+                    child: Padding(
+                      padding: const EdgeInsets.all(20.0),
+                      child: Text(
+                        (index + 1).toString(),
+                        style: TextStyle(
+                          fontSize: 25,
+                        ),
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    flex: 3,
+                    child: Container(
+                      width: MediaQuery.of(context).size.width * 0.5,
+                      child: Image.network(urlImages[index]),
+                    ),
+                  ),
+                  Expanded(
+                    flex: 1,
+                    child: Container(
+                      child: Center(
+                        child: IconButton(
+                            icon: Icon(Icons.delete, color: Colors.red),
+                            onPressed: () {
+                              setState(() {
+                                urlImages.removeAt(index);
+                              });
+                            }),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              Divider(
+              ),
+            ],
+          );
+        },
+      ),
     );
   }
 
@@ -96,8 +170,8 @@ class _AddSubBabState extends State<AddSubBab> {
                     borderRadius: BorderRadius.all(Radius.circular(10)),
                     child: TextField(
                       controller: tecIsiSubBab,
-                      maxLines: 30,
                       minLines: 15,
+                      maxLines: 15,
                       onChanged: (String value) {},
                       cursorColor: Colors.deepPurple,
                       decoration: InputDecoration(
@@ -108,6 +182,90 @@ class _AddSubBabState extends State<AddSubBab> {
                     ),
                   ),
                 ),
+                SizedBox(
+                  height: 20,
+                ),
+                Container(
+                  child: Row(
+                    children: [
+                      SizedBox(
+                        width: 20,
+                      ),
+                      RaisedButton(
+                        onPressed: () {
+                          if (addGambar) {
+                            if (!tecUrl.text.isEmpty) {
+                              urlImages.add(tecUrl.text);
+                            }
+                            setState(() {
+                              tecUrl.text = "";
+                            });
+                          }
+                          setState(() {
+                            addGambar = !addGambar;
+                          });
+                        },
+                        child: Container(
+                            child: Text(
+                          "${addGambar ? "Simpan Gambar" : "Tambah Gambar"}",
+                          style: TextStyle(color: Colors.white),
+                        )),
+                        color: Colors.deepPurple,
+                      ),
+                      Expanded(
+                        child: Container(),
+                      ),
+                      RaisedButton(
+                        onPressed: () {
+                          setState(() {
+                            isLihatGambar = !isLihatGambar;
+                          });
+                          print(urlImages.toString());
+                        },
+                        child: Container(
+                            child: Text(
+                          "Lihat Gambar",
+                          style: TextStyle(color: Colors.white),
+                        )),
+                        color: Colors.deepPurple,
+                      ),
+                      SizedBox(
+                        width: 20,
+                      ),
+                    ],
+                  ),
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                Center(child: Text("Tambahkan \"@img\" pada Text Input setelah menambahkan gambar tepat dimana anda ingin menyisipkan gambar",style: TextStyle(color: Colors.red),)),
+                SizedBox(
+                  height: 10,
+                ),
+                addGambar
+                    ? Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 10),
+                        child: Material(
+                          color: Colors.deepPurple.withOpacity(0.5),
+                          borderRadius: BorderRadius.all(Radius.circular(10)),
+                          child: TextField(
+                              maxLines: 3,
+                              minLines: 1,
+                              controller: tecUrl,
+                              onChanged: (String value) {},
+                              cursorColor: Colors.deepPurple,
+                              textCapitalization: TextCapitalization.words,
+                              decoration: InputDecoration(
+                                  hintText: "Url Gambar",
+                                  border: InputBorder.none,
+                                  contentPadding: EdgeInsets.symmetric(
+                                      horizontal: 10, vertical: 13))),
+                        ),
+                      )
+                    : SizedBox(
+                        height: 10,
+                      ),
+                SizedBox(height: 50),
               ],
             ),
           ),

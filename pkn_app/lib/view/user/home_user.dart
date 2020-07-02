@@ -6,6 +6,7 @@ import 'package:pkn_app/models/siswa.dart';
 import 'package:pkn_app/view/category.dart';
 import 'package:pkn_app/view/demo_values.dart';
 import 'package:pkn_app/assets/assets.dart';
+import 'package:pkn_app/server/url.dart' as url;
 
 class HomeUser extends StatefulWidget {
   static const routeName = '/HomeUser';
@@ -38,6 +39,13 @@ class _HomeUserState extends State<HomeUser> {
     return Scaffold(
       body: Stack(
         children: <Widget>[
+          Container(
+              width: MediaQuery.of(context).size.width,
+              // padding: EdgeInsets.all(10),
+              child: Image.asset(
+                url.Url.assetImage + "pancasilaOpacity.jpeg",
+                fit: BoxFit.fill,
+              )),
           ClipPath(
             clipper: WaveClipperTwo(),
             child: Container(
