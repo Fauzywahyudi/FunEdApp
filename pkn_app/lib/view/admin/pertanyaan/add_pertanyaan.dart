@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:pkn_app/assets/assets.dart';
 import 'package:http/http.dart' as http;
+import 'package:pkn_app/models/bab.dart';
 import 'package:pkn_app/server/url.dart' as url;
 
 class AddPertanyaan extends StatefulWidget {
@@ -21,9 +22,11 @@ class _AddPertanyaanState extends State<AddPertanyaan> {
       fontSize: 20.0, color: Colors.black, fontWeight: FontWeight.bold);
 
   List<String> opsi;
+  Bab _bab;
 
   Future save() async {
     final result = await http.post(url.Url.home + "addPertanyaan.php", body: {
+      "id_bab": _bab.getIdBab().toString(),
       "pertanyaan": tecPertanyaan.text,
       "jawaban": tecJawaban.text,
       "opsi": json.encode(opsi),
@@ -38,6 +41,10 @@ class _AddPertanyaanState extends State<AddPertanyaan> {
 
   @override
   Widget build(BuildContext context) {
+    final Bab args = ModalRoute.of(context).settings.arguments;
+    setState(() {
+      this._bab = args;
+    });
     return Scaffold(
       appBar: _buildAppBar(),
       floatingActionButton: _buildFAB(),

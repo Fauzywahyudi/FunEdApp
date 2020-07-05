@@ -12,6 +12,7 @@ import 'package:pkn_app/models/siswa.dart';
 import 'package:pkn_app/view/user/quiz/hasil_quiz.dart';
 import 'package:http/http.dart' as http;
 import 'package:pkn_app/server/url.dart' as url;
+import 'package:pkn_app/view/user/quiz/optionDialog.dart';
 
 class Quiz extends StatefulWidget {
   static const routeName = '/Quiz';
@@ -44,7 +45,7 @@ class _QuizState extends State<Quiz> {
   }
 
   getPertanyaan() async {
-    pertanyaanList = await PertanyaanService().getAll();
+    pertanyaanList = await PertanyaanService().getAll("1");
     setState(() {
       _jumlahSoal = pertanyaanList.length;
     });
@@ -142,10 +143,11 @@ class _QuizState extends State<Quiz> {
       backgroundColor: Colors.deepOrange,
       onPressed: () {
         setState(() {
-          isPrepare = false;
-          isLoading = true;
-          setOpsi();
-          isLoading = false;
+          _selectQuiz(context);
+          // isPrepare = false;
+          // isLoading = true;
+          // setOpsi();
+          // isLoading = false;
         });
       },
       label: Text("Mulai Quiz"),
@@ -407,5 +409,11 @@ class _QuizState extends State<Quiz> {
             ),
           ),
         ));
+  }
+
+  _selectQuiz(BuildContext context){
+    showModalBottomSheet(context: context,backgroundColor: Colors.transparent,
+    builder: (context) => BottomSheet(onClosing: (){},
+    builder: (context) => OptionDialog(),backgroundColor: Colors.transparent,),);
   }
 }

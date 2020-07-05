@@ -78,7 +78,7 @@ class _CekJawabanState extends State<CekJawaban> {
           ),
           Container(
             child: FutureBuilder<List>(
-              future: PertanyaanService().getJsonData(),
+              future: PertanyaanService().getJsonData("1"),
               builder: (context, snapshot) {
                 if (snapshot.hasError) print(snapshot.error);
                 return snapshot.hasData

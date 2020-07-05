@@ -12,15 +12,7 @@ class Hasil{
   int _jumBenar;
   String _tanggal;
 
-  Hasil(int idHasil, int idSiswa, String pertanyaan, String pilihan, int jumPertanyaan, int jumBenar, String tanggal){
-    this._idHasil = idHasil;
-    this._idSiswa = idSiswa;
-    this._pertanyaan = pertanyaan;
-    this._pilihan = pilihan;
-    this._jumPertanyaan = jumPertanyaan;
-    this._jumBenar = jumBenar;
-    this._tanggal = tanggal;
-  }
+  Hasil(this._idHasil, this._idSiswa, this._pertanyaan, this._pilihan, this._jumPertanyaan, this._jumBenar, this._tanggal);
 
   int getIdHasil()=>this._idHasil;
   int getIdSiswa()=>this._idSiswa;

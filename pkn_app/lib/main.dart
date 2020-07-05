@@ -6,6 +6,7 @@ import 'package:pkn_app/view/admin/materi/edit_bab.dart';
 import 'package:pkn_app/view/admin/materi/materi_view.dart';
 import 'package:pkn_app/view/admin/home_admin.dart';
 import 'package:pkn_app/view/admin/pertanyaan/add_pertanyaan.dart';
+import 'package:pkn_app/view/admin/pertanyaan/pertanyaanBab.dart';
 import 'package:pkn_app/view/admin/pertanyaan/pertanyaanView.dart';
 import 'package:pkn_app/view/admin/petunjuk/petunjuk_admin.dart';
 import 'package:pkn_app/view/user/about.dart';
@@ -56,6 +57,7 @@ class MyApp extends StatelessWidget {
         MateriView.routeName: (context) => MateriView(),
         EditBab.routeName: (context) => EditBab(),
         PertanyaanView.routeName: (context) => PertanyaanView(),
+        PertanyaanBab.routeName: (context) => PertanyaanBab(),
         AddPertanyaan.routeName: (context) => AddPertanyaan(),
         AboutAdmin.routeName: (context) =>AboutAdmin(),
         EditAbout.routeName: (context) =>EditAbout(),

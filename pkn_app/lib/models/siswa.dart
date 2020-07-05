@@ -11,16 +11,8 @@ class Siswa {
   String _kelas;
   String _jurusan;
 
-  Siswa(int id, String nis, String password, String nama, String jk,
-      String kelas, String jurusan) {
-    this._id = id;
-    this._nis = nis;
-    this._password = password;
-    this._nama = nama;
-    this._jk = jk;
-    this._kelas = kelas;
-    this._jurusan = jurusan;
-  }
+  Siswa(this._id, this._nis, this._password, this._nama, this._jk,
+      String kelas, String jurusan);
 
   int getId() => this._id;
   String getNis() => this._nis;

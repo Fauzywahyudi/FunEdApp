@@ -6,11 +6,7 @@ class Bab {
   int bab;
   String namaBab;
 
-  Bab(int idBab, int bab, String namaBab) {
-    this.idBab = idBab;
-    this.bab = bab;
-    this.namaBab = namaBab;
-  }
+  Bab(this.idBab, this.bab, this.namaBab);
 
   int getIdBab() => this.idBab;
   int getBab() => this.bab;

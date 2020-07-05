@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
@@ -5,18 +6,30 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:pkn_app/assets/assets.dart';
 import 'package:http/http.dart' as http;
+import 'package:pkn_app/models/bab.dart';
 import 'package:pkn_app/server/url.dart' as url;
 import 'package:pkn_app/view/admin/pertanyaan/add_pertanyaan.dart';
 import 'package:pkn_app/view/admin/pertanyaan/view_demo.dart';
 
 class PertanyaanView extends StatefulWidget {
-  static const routeName = '/Pertanyaan';
+  static const routeName = '/PertanyaanBab';
   @override
   _PertanyaanViewState createState() => _PertanyaanViewState();
 }
 
 class _PertanyaanViewState extends State<PertanyaanView> {
   bool isLoading = false;
+  Bab _bab;
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
+  @override
+  void initState() { 
+    super.initState();
+  }
 
   aksiDismis(var data) {
     _requestConfirm(context, data);
@@ -24,6 +37,10 @@ class _PertanyaanViewState extends State<PertanyaanView> {
 
   @override
   Widget build(BuildContext context) {
+    final Bab args = ModalRoute.of(context).settings.arguments;
+    setState(() {
+      this._bab = args;
+    });
     return Scaffold(
       appBar: _buildAppBar(),
       floatingActionButton: _buildFAB(),
@@ -44,7 +61,7 @@ class _PertanyaanViewState extends State<PertanyaanView> {
         Icons.edit,
       ),
       tooltip: "Tambah Pertanyaan",
-      onPressed: ()=>Navigator.pushNamed(context, '/AddPertanyaan')
+      onPressed: ()=>Navigator.pushNamed(context, '/AddPertanyaan',arguments: _bab)
     );
   }
 
@@ -202,12 +219,12 @@ class _PertanyaanViewState extends State<PertanyaanView> {
   }
 
   Future<List> getData() async {
-    final result = await http.post(url.Url.home + "getPertanyaan.php");
-    if(!mounted){
-      setState(() {
+    final result = await http.post(url.Url.home + "getPertanyaan.php", body: {
+      'id_bab': _bab.getIdBab().toString(),
+    });
+    setState(() {
         
-      });
-    }
+    });
     return json.decode(result.body);
   }
 
@@ -295,25 +312,32 @@ class _PertanyaanViewState extends State<PertanyaanView> {
                               padding: const EdgeInsets.all(5.0),
                               child: Text("Iya"),
                               onPressed: () async {
-                                setState(() {
-                                  isLoading = true;
-                                });
+                                // setState(() {
+                                //   isLoading = true;
+                                // });
                                 final hapus = await http
                                     .post(url.Url.home + "deletePertanyaan.php", body: {
                                   "id_pertanyaan": data['id_pertanyaan'],
                                 });
-                                if (hapus.body == "sukses") {
-                                  Fluttertoast.showToast(msg: "Sukses menghapus");
-                                  setState(() {
-                                    isLoading = false;
-                                  });
-                                } else {
-                                  Fluttertoast.showToast(msg: "Gagal menghapus");
-                                  setState(() {
-                                    isLoading = false;
-                                  });
-                                }
+                                print(hapus.body);
                                 Navigator.pop(context);
+                                setState(() {
+                                  
+                                });
+                                // if (hapus.body == "sukses") {
+                                //   Fluttertoast.showToast(msg: "Sukses menghapus");
+                                //   setState(() {
+                                //     isLoading = false;
+                                //   });
+                                // } else {
+                                //   Fluttertoast.showToast(msg: "Gagal menghapus");
+                                //   setState(() {
+                                //     isLoading = false;
+                                //   });
+                                // }
+                                // setState(() {
+                                //   isLoading = !isLoading;
+                                // });
                               },
                             ),
                           ),

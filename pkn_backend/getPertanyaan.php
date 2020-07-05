@@ -1,7 +1,9 @@
 <?php 
     include 'koneksi.php';
 
-    $sql = $kon->query("SELECT * FROM `pertanyaan`");
+    $idBab = $_POST['id_bab'];
+
+    $sql = $kon->query("SELECT * FROM `pertanyaan` WHERE id_bab='$idBab'");
 
     $data = array();
     while($fetchData = $sql->fetch_assoc()){
