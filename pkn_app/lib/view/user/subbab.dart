@@ -17,11 +17,77 @@ class _SubBabDescrUserState extends State<SubBabDescrUser> {
   TextEditingController tecIsiSubBab = TextEditingController();
   bool isEditing = false;
   var dataMateri;
+  List<String> urlImages = List<String>();
+  List<Widget> widgets = List<Widget>();
+  List<String> texts;
+  int jumlah = 0;
+  String isi = "";
+
+
 
   @override
   void initState() {
     dataMateri = widget.data;
+
+    isi = widget.data['isi'];
+    print(urlImages.length);
+    setState(() {
+      if (widget.data['gambar'].toString().isNotEmpty) {
+        List data = json.decode(widget.data['gambar']);
+        for (var i = 0; i < data.length; i++) {
+          urlImages.add(data[i]);
+        }
+      }
+      jumlah = urlImages.length;
+      print("image jumlah : " + jumlah.toString());
+    });
+
+    if (jumlah > 0) {
+      int indexImages = 0;
+      texts = isi.toString().split("@img");
+      for (var i = 0; i < texts.length; i++) {
+        widgets.add(Text(texts[i],textAlign: TextAlign.justify,));
+        if (jumlah != 0) {
+          widgets.add(Container(
+              child: Center(
+            child: Image.network(
+              urlImages[indexImages],
+              fit: BoxFit.fill,
+            ),
+          )));
+          jumlah--;
+          indexImages++;
+        }
+      }
+    }
     super.initState();
+  }
+
+  refresh() {
+    setState(() {
+      jumlah = urlImages.length;
+
+      if (jumlah > 0) {
+        widgets = null;
+        int indexImages = 0;
+        texts = isi.toString().split("@img");
+        widgets = List<Widget>();
+        for (var i = 0; i < texts.length; i++) {
+          widgets.add(Text(texts[i]));
+          if (jumlah != 0) {
+            widgets.add(Container(
+                child: Center(
+              child: Image.network(
+                urlImages[indexImages],
+                fit: BoxFit.fill,
+              ),
+            )));
+            jumlah--;
+            indexImages++;
+          }
+        }
+      }
+    });
   }
 
   @override
@@ -115,29 +181,75 @@ class _SubBabDescrUserState extends State<SubBabDescrUser> {
   }
 
   Widget _buildBody() {
-    return Container(
-      padding: EdgeInsets.symmetric(horizontal: 10, vertical: 0),
-      child: Stack(
-        children: [
-          Container(
+    return urlImages.length < 1
+        ? Container(
+            padding: EdgeInsets.symmetric(horizontal: 10, vertical: 0),
+            child: Stack(
+              children: [
+                Container(
               width: MediaQuery.of(context).size.width,
               // padding: EdgeInsets.all(10),
               child: Image.asset(
                 url.Url.assetImage + "pancasilaOpacity.jpeg",
                 fit: BoxFit.fill,
               )),
-          SingleChildScrollView(
-            child: Column(
-              children: [
-                SizedBox(height: 10),
-                Text(validasiIsi(), textAlign: TextAlign.justify),
-                SizedBox(height: 10),
+                SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      SizedBox(height: 10),
+                      Text(validasiIsi(), textAlign: TextAlign.justify),
+                      SizedBox(height: 10),
+                    ],
+                  ),
+                ),
               ],
             ),
-          ),
-        ],
-      ),
-    );
+          )
+        : Container(
+            padding: EdgeInsets.all(10),
+            width: MediaQuery.of(context).size.width,
+            child: Stack(
+              children: [
+                Container(
+              width: MediaQuery.of(context).size.width,
+              // padding: EdgeInsets.all(10),
+              child: Image.asset(
+                url.Url.assetImage + "pancasilaOpacity.jpeg",
+                fit: BoxFit.fill,
+              )),
+                SingleChildScrollView(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: widgets == null ? [] : widgets,
+                  ),
+                ),
+              ],
+            ),
+          );
+    
+    // Container(
+    //   padding: EdgeInsets.symmetric(horizontal: 10, vertical: 0),
+    //   child: Stack(
+    //     children: [
+    //       Container(
+    //           width: MediaQuery.of(context).size.width,
+    //           // padding: EdgeInsets.all(10),
+    //           child: Image.asset(
+    //             url.Url.assetImage + "pancasilaOpacity.jpeg",
+    //             fit: BoxFit.fill,
+    //           )),
+    //       SingleChildScrollView(
+    //         child: Column(
+    //           children: [
+    //             SizedBox(height: 10),
+    //             Text(validasiIsi(), textAlign: TextAlign.justify),
+    //             SizedBox(height: 10),
+    //           ],
+    //         ),
+    //       ),
+    //     ],
+    //   ),
+    // );
   }
 
   Widget _buildBodyEditing() {

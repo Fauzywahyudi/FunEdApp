@@ -25,7 +25,7 @@ class _EditAboutState extends State<EditAbout> {
   }
 
   Future update(String id, String text)async{
-    final result = await http.post(url.Url.home+"updateAbout.php",body: {
+    await http.post(url.Url.home+"updateAbout.php",body: {
       "id" : id,
       "text" : text,
     });

@@ -47,7 +47,7 @@ class _SubBabDescrState extends State<SubBabDescr> {
       int indexImages = 0;
       texts = isi.toString().split("@img");
       for (var i = 0; i < texts.length; i++) {
-        widgets.add(Text(texts[i]));
+        widgets.add(Text(texts[i],textAlign: TextAlign.justify,));
         if (jumlah != 0) {
           widgets.add(Container(
               child: Center(
@@ -74,7 +74,7 @@ class _SubBabDescrState extends State<SubBabDescr> {
         texts = isi.toString().split("@img");
         widgets = List<Widget>();
         for (var i = 0; i < texts.length; i++) {
-          widgets.add(Text(texts[i]));
+          widgets.add(Text(texts[i],textAlign: TextAlign.justify,));
           if (jumlah != 0) {
             widgets.add(Container(
                 child: Center(

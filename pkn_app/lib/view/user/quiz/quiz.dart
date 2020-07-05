@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:line_awesome_icons/line_awesome_icons.dart';
 import 'package:pkn_app/assets/assets.dart';
 import 'package:pkn_app/models/hasil.dart';
 import 'package:pkn_app/models/pertanyaan.dart';

@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:pkn_app/server/url.dart' as url;
@@ -196,7 +195,7 @@ class _LoginAdminState extends State<LoginAdmin> {
         "password": tecPassword.text,
       });
       String msg = result.body.substring(0, 1);
-      List data = json.decode(result.body.substring(1));
+      // List data = json.decode(result.body.substring(1));
       if (msg == "1") {
         Navigator.pop(context);
         Navigator.pushReplacementNamed(context, "/HomeAdmin");

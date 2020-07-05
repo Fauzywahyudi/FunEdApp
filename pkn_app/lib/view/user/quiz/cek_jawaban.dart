@@ -6,7 +6,6 @@ import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
 import 'package:pkn_app/assets/assets.dart';
 import 'package:pkn_app/models/hasil.dart';
 import 'package:pkn_app/models/pertanyaan.dart';
-import 'package:pkn_app/models/siswa.dart';
 
 class CekJawaban extends StatefulWidget {
   static const routeName = '/CekJawaban';

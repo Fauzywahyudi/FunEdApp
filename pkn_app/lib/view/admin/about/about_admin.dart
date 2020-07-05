@@ -27,7 +27,7 @@ class _AboutAdminState extends State<AboutAdmin> {
   }
 
   Future save() async {
-    final result = await http.post(url.Url.home + "updateAbout.php", body: {
+    await http.post(url.Url.home + "updateAbout.php", body: {
       "id": id,
       "text": tecIsiSubBab.text,
     });
