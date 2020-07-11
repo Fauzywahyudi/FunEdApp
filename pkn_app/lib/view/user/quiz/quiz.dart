@@ -37,6 +37,11 @@ class _QuizState extends State<Quiz> {
   List<String> _pilihUser = List<String>();
   List<String> _idPertanyaan = List<String>();
 
+  // bottomsheet
+  List data;
+  String _bab;
+  List<Widget> widgets = List<Widget>();
+
   Future<List> getHistory() async {
     final result = await http.post(url.Url.home + "getHistorySiswa.php", body: {
       "id_siswa": _siswa.getId().toString(),
@@ -44,10 +49,45 @@ class _QuizState extends State<Quiz> {
     return json.decode(result.body);
   }
 
-  getPertanyaan() async {
-    pertanyaanList = await PertanyaanService().getAll("1");
+  getPertanyaan(String id) async {
+    pertanyaanList = await PertanyaanService().getAll(id);
     setState(() {
       _jumlahSoal = pertanyaanList.length;
+    });
+  }
+
+  Future getBab() async {
+    final result = await http.post(url.Url.home + "getBab.php");
+    setState(() {
+      data = json.decode(result.body);
+      for (var i = 0; i < data.length; i++) {
+        Widget widg = Container(
+        decoration: BoxDecoration(
+        color: Colors.deepOrange,
+          borderRadius: BorderRadius.circular(20)
+        ),
+        padding: EdgeInsets.all(5),
+        margin: EdgeInsets.symmetric(vertical: 2,horizontal: 5),
+        child: ListTile(
+          onTap: (){
+            setState(() async{
+              await getPertanyaan(data[i]['id_bab']);
+              _bab = data[i]['id_bab'];
+              isPrepare = false;
+              isLoading = true;
+              setOpsi();
+              isLoading = false;
+              Navigator.pop(context);
+            });
+          },
+          subtitle: Text(data[i]['nama_bab'],
+          style: TextStyle(color: Colors.white),),
+          leading: Text("Bab "+data[i]['bab'],
+          style: TextStyle(color: Colors.white),),
+          ),
+        );
+        widgets.add(widg);
+      }
     });
   }
 
@@ -62,13 +102,13 @@ class _QuizState extends State<Quiz> {
   String hitung(String benar, String soal)=>(int.parse(benar) / int.parse(soal)*100).toString();
 
   Future insert() async {
-    await HasilService().insertHasil(_siswa.getId(), json.encode(_idPertanyaan),
+    await HasilService().insertHasil(_siswa.getId(), _bab,json.encode(_idPertanyaan),
         json.encode(_pilihUser), _jumlahSoal, _jumlahBenar);
   }
 
   @override
   void initState() {
-    getPertanyaan();
+    getBab();
     super.initState();
   }
 
@@ -123,8 +163,9 @@ class _QuizState extends State<Quiz> {
               _currentKunci = "";
             } else {
               insert();
+              ArgumentHasil arg = ArgumentHasil(_siswa, _bab);
               Navigator.pushReplacementNamed(context, HasilQuiz.routeName,
-                  arguments: _siswa);
+                  arguments: arg);
             }
           } else {
             Fluttertoast.showToast(msg: "Silahkan pilih jawaban!");
@@ -144,13 +185,10 @@ class _QuizState extends State<Quiz> {
       onPressed: () {
         setState(() {
           _selectQuiz(context);
-          // isPrepare = false;
-          // isLoading = true;
-          // setOpsi();
-          // isLoading = false;
+          
         });
       },
-      label: Text("Mulai Quiz"),
+      label: Text("Start Quiz"),
       icon: Icon(FontAwesomeIcons.play),
     );
   }
@@ -197,11 +235,17 @@ class _QuizState extends State<Quiz> {
           SingleChildScrollView(
             child: Column(
               children: [
-                SizedBox(height: 10,),
                 Row(
                   children: [
-                    Expanded(child: Center(child: Text("History Quiz",style: TextStyle(color: Colors.white, fontSize: 20,fontWeight: FontWeight.bold)))),
-                    Center(child: Text("3 Terakhir",style: TextStyle(color: Colors.white, fontSize: 16,fontWeight: FontWeight.bold))),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text("History Quiz",style: TextStyle(color: Colors.white, fontSize: 20,fontWeight: FontWeight.bold)),
+                    ),
+                    Expanded(child: Container()),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text("3 Terakhir",style: TextStyle(color: Colors.white, fontSize: 16,fontWeight: FontWeight.bold)),
+                    ),
                     SizedBox(width: 10,)
                   ],
                 ),
@@ -232,7 +276,7 @@ class _QuizState extends State<Quiz> {
                                       color: Colors.deepOrange,
                                       shape: BoxShape.circle,
                                     ),
-                                    child: Center(child: Text("${index+1}",style: TextStyle(color: Colors.white,fontSize: 18),))
+                                    child: Center(child: Text("Bab "+snapshot.data[index]['bab'],style: TextStyle(color: Colors.white,fontSize: 13),))
                                   ),
                                   subtitle: Text(formatDate(snapshot.data[index]['tgl_selesai']),style: TextStyle(
                                     color: Colors.deepOrange
@@ -290,7 +334,7 @@ class _QuizState extends State<Quiz> {
                       title: Text(
                     _currentPertanyaan.getPertanyaan(),
                     textAlign: TextAlign.justify,
-                    style: TextStyle(color: Colors.white, fontSize: 17),
+                    style: TextStyle(color: Colors.white, fontSize: 15),
                   )),
                 ),
                 Container(
@@ -412,8 +456,42 @@ class _QuizState extends State<Quiz> {
   }
 
   _selectQuiz(BuildContext context){
-    showModalBottomSheet(context: context,backgroundColor: Colors.transparent,
+    return showModalBottomSheet(context: context,backgroundColor: Colors.transparent,
     builder: (context) => BottomSheet(onClosing: (){},
-    builder: (context) => OptionDialog(),backgroundColor: Colors.transparent,),);
+    builder: (context) => _optionDialog(),backgroundColor: Colors.transparent,),);
   }
+
+  _optionDialog(){
+    return Container(
+      height: MediaQuery.of(context).size.height * 0.4,
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.only(topLeft: Radius.circular(20),topRight: Radius.circular(20))
+      ),
+      child: SingleChildScrollView(
+        child: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Center(child: Text("Pilih Bab",style: TextStyle(color: Colors.deepOrange,fontSize: 20, fontWeight: FontWeight.bold),),),
+            ),
+            Column(children: widgets==null? [SizedBox(height: 50)] : widgets)
+          ],
+        ),
+      ),
+    );
+  }
+
+
+}
+
+class ArgumentHasil{
+  Siswa siswa;
+  String bab;
+
+  ArgumentHasil(this.siswa, this.bab);
+
+  Siswa getSiswa()=>this.siswa;
+  String getBab()=>this.bab;
+
 }

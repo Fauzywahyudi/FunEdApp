@@ -51,7 +51,7 @@ class _PertanyaanViewState extends State<PertanyaanView> {
   Widget _buildAppBar() {
     return AppBar(
       leading: backIos(Colors.white, context),
-      title: Text("Pertanyaan"),
+      title: Text("Question"),
     );
   }
 

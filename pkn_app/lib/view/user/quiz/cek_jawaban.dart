@@ -6,6 +6,9 @@ import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
 import 'package:pkn_app/assets/assets.dart';
 import 'package:pkn_app/models/hasil.dart';
 import 'package:pkn_app/models/pertanyaan.dart';
+import 'package:pkn_app/view/user/quiz/quiz.dart';
+import 'package:pkn_app/view/user/quiz/hasil_quiz.dart';
+
 
 class CekJawaban extends StatefulWidget {
   static const routeName = '/CekJawaban';
@@ -18,10 +21,11 @@ class _CekJawabanState extends State<CekJawaban> {
   Hasil _hasil;
   bool isLoading = true;
   List _pilihanUser = List();
+  String bab;
 
   @override
   void initState() {
-    Timer(Duration(seconds: 1), () {
+    Timer(Duration(seconds: 2), () {
       setState(() {
         isLoading = false;
         _pilihanUser = json.decode(_hasil.getPilihan());
@@ -37,9 +41,10 @@ class _CekJawabanState extends State<CekJawaban> {
 
   @override
   Widget build(BuildContext context) {
-    final Hasil args = ModalRoute.of(context).settings.arguments;
+    final ArgumentCekJawaban args = ModalRoute.of(context).settings.arguments;
     setState(() {
-      this._hasil = args;
+      this._hasil = args.getHasil();
+      this.bab = args.getBab();
     });
     return Scaffold(
       appBar: _buildAppBar(),
@@ -78,7 +83,7 @@ class _CekJawabanState extends State<CekJawaban> {
           ),
           Container(
             child: FutureBuilder<List>(
-              future: PertanyaanService().getJsonData("1"),
+              future: PertanyaanService().getJsonData(bab),
               builder: (context, snapshot) {
                 if (snapshot.hasError) print(snapshot.error);
                 return snapshot.hasData

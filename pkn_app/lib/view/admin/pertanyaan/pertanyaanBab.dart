@@ -9,7 +9,7 @@ import 'package:pkn_app/server/url.dart' as url;
 import 'package:pkn_app/view/admin/pertanyaan/pertanyaanView.dart';
 
 class PertanyaanBab extends StatefulWidget {
-  static const routeName = '/Pertanyaan';
+  static const routeName = '/Question';
   @override
   _PertanyaanBabState createState() => _PertanyaanBabState();
 }
@@ -26,7 +26,7 @@ class _PertanyaanBabState extends State<PertanyaanBab> {
   Widget _buildAppBar() {
     return AppBar(
       leading: backIos(Colors.white, context),
-      title: Text("Pertanyaan"),
+      title: Text("Question"),
     );
   }
 

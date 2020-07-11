@@ -12,7 +12,7 @@ class Siswa {
   String _jurusan;
 
   Siswa(this._id, this._nis, this._password, this._nama, this._jk,
-      String kelas, String jurusan);
+      this._kelas, this._jurusan);
 
   int getId() => this._id;
   String getNis() => this._nis;

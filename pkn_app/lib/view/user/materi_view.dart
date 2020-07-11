@@ -8,7 +8,7 @@ import 'package:pkn_app/server/url.dart' as url;
 import 'package:pkn_app/view/user/bab.dart';
 
 class MateriPelajaran extends StatefulWidget {
-  static const routeName = '/MateriPelajaran';
+  static const routeName = '/Theory';
   @override
   _MateriPelajaranState createState() => _MateriPelajaranState();
 }
@@ -41,7 +41,7 @@ class _MateriPelajaranState extends State<MateriPelajaran> {
   Widget _buildAppBar() {
     return AppBar(
       leading: backIos(Colors.white, context),
-      title: Text("Materi"),
+      title: Text("Theory"),
     );
   }
 

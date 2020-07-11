@@ -27,16 +27,16 @@ final List<Modul> moduls = [
 ];
 
 final List<Category> categories = [
-  Category(1,"Materi", icon: FontAwesomeIcons.bookOpen),
-  Category(2,"Pertanyaan", icon: FontAwesomeIcons.question),
-  Category(3,"Perbaharui Petunjuk", icon: FontAwesomeIcons.bookReader),
-  Category(4,"Perbaharui About", icon: FontAwesomeIcons.idCard),
+  Category(1,"Update Theory", icon: FontAwesomeIcons.bookOpen),
+  Category(2,"Question", icon: FontAwesomeIcons.question),
+  Category(3,"Update Guide", icon: FontAwesomeIcons.bookReader),
+  Category(4,"Update About", icon: FontAwesomeIcons.idCard),
 ];
 
 final List<Category> categoriesUser = [
-  Category(1,"Materi Pelajaran", icon: FontAwesomeIcons.bookOpen),
+  Category(1,"Theory", icon: FontAwesomeIcons.bookOpen),
   Category(2,"Quiz", icon: FontAwesomeIcons.gamepad),
-  Category(3,"Guide", icon: FontAwesomeIcons.bookReader),
+  // Category(3,"Guide", icon: FontAwesomeIcons.bookReader),
   Category(4,"About", icon: FontAwesomeIcons.idCard),
 ];
 

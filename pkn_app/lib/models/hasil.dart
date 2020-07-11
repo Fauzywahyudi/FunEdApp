@@ -26,9 +26,10 @@ class Hasil{
 
 class HasilService{
 
-  Future insertHasil(int idSiswa, String listIdPertanyaan, String listPilihan, int jumPertanyaan, int jumBenar)async{
+  Future insertHasil(int idSiswa,String bab, String listIdPertanyaan, String listPilihan, int jumPertanyaan, int jumBenar)async{
     await http.post(url.Url.home+"insertHasil.php",body: {
       "id_siswa" : idSiswa.toString(),
+      "bab" : bab,
       "pertanyaan" : listIdPertanyaan,
       "pilihan" : listPilihan,
       "jumlah_pertanyaan" : jumPertanyaan.toString(),

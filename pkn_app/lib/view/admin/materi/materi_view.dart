@@ -10,7 +10,7 @@ import 'package:http/http.dart' as http;
 import 'package:pkn_app/server/url.dart' as url;
 
 class MateriView extends StatefulWidget {
-  static const routeName = '/Materi';
+  static const routeName = '/UpdateTheory';
   @override
   _MateriViewState createState() => _MateriViewState();
 }
@@ -56,7 +56,7 @@ class _MateriViewState extends State<MateriView> {
   Widget _buildAppBar() {
     return AppBar(
       leading: backIos(Colors.white, context),
-      title: Text("Materi"),
+      title: Text("Theory"),
     );
   }
 

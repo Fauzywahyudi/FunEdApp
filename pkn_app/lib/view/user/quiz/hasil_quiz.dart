@@ -5,6 +5,7 @@ import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
 import 'package:pkn_app/assets/assets.dart';
 import 'package:pkn_app/models/hasil.dart';
 import 'package:pkn_app/models/siswa.dart';
+import 'package:pkn_app/view/user/quiz/quiz.dart';
 
 class HasilQuiz extends StatefulWidget {
   static const routeName = '/HasilQuiz';
@@ -17,6 +18,7 @@ class _HasilQuizState extends State<HasilQuiz> {
   Siswa _siswa;
   Hasil _hasil;
   bool isLoading = true;
+  String bab;
 
   Future getHasil()async{
     Hasil hasil = await HasilService().getNewHasil(_siswa.getId());
@@ -41,9 +43,10 @@ class _HasilQuizState extends State<HasilQuiz> {
 
   @override
   Widget build(BuildContext context) {
-    final Siswa args = ModalRoute.of(context).settings.arguments;
+    final ArgumentHasil args = ModalRoute.of(context).settings.arguments;
     setState(() {
-      this._siswa = args;
+      this._siswa = args.getSiswa();
+      this.bab = args.getBab();
     });
     return Scaffold(
       appBar: _buildAppBar(),
@@ -115,7 +118,8 @@ class _HasilQuizState extends State<HasilQuiz> {
               right: 10,
               child: InkWell(
                 onTap: (){
-                  Navigator.pushNamed(context, '/CekJawaban',arguments: _hasil);
+                  ArgumentCekJawaban args =  ArgumentCekJawaban(_hasil, bab);
+                  Navigator.pushNamed(context, '/CekJawaban',arguments: args);
                 },
                 borderRadius: BorderRadius.circular(20),
                 child: Container(
@@ -157,4 +161,16 @@ class _HasilQuizState extends State<HasilQuiz> {
           children: [Text(title,style: TextStyle(fontSize: 17),), Text(value,style: TextStyle(fontSize: 17, color: Colors.deepOrange))],
         ));
   }
+}
+
+class ArgumentCekJawaban{
+
+  Hasil hasil;
+  String bab;
+
+  ArgumentCekJawaban(this.hasil, this.bab);
+
+  Hasil getHasil()=>this.hasil;
+  String getBab()=>this.bab;
+
 }

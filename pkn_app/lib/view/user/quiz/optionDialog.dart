@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:pkn_app/server/url.dart' as url;
@@ -41,7 +40,7 @@ class _OptionDialogState extends State<OptionDialog> {
               padding: const EdgeInsets.all(8.0),
               child: Center(child: Text("Pilih Bab",style: TextStyle(color: Colors.deepOrange,fontSize: 20, fontWeight: FontWeight.bold),),),
             ),
-            Column(children: widgets==null? [SizedBox(height: 50,)] : widgets)
+            Column(children: widgets==null? [SizedBox(height: 50)] : widgets)
           ],
         ),
       ),

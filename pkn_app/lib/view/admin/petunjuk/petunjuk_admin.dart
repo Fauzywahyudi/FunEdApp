@@ -6,7 +6,7 @@ import 'package:pkn_app/server/url.dart' as url;
 
 
 class PetunjukAdmin extends StatefulWidget {
-  static const routeName = '/PerbaharuiPetunjuk';
+  static const routeName = '/UpdateGuide';
   @override
   _PetunjukAdminState createState() => _PetunjukAdminState();
 }
@@ -65,14 +65,14 @@ class _PetunjukAdminState extends State<PetunjukAdmin> {
               isEditing = false;
             });
           }),
-      title: Text("Edit Petunjuk"),
+      title: Text("Edit Guide"),
     );
   }
 
   Widget _buildAppBar() {
     return AppBar(
       leading: backIos(Colors.white, context),
-      title: Text("Petunjuk"),
+      title: Text("Guide"),
     );
   }
 

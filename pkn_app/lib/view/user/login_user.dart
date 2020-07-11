@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 // import 'package:http/http.dart' as http;
 import 'package:pkn_app/models/siswa.dart';
@@ -62,7 +63,8 @@ class _LoginUserState extends State<LoginUser> {
                         width: 200,
                         child: Hero(
                             tag: "logo",
-                            child: Image.asset(url.Url.assetImage+"logo_white.png")),
+                            child: Image.asset(
+                                url.Url.assetImage + "logo_white.png")),
                       ),
                       SizedBox(
                         height: 20,
@@ -80,10 +82,21 @@ class _LoginUserState extends State<LoginUser> {
                 child: Row(
                   children: [
                     Expanded(child: Container()),
-                    FloatingActionButton(onPressed: ()=>Navigator.pushNamed(context, '/LoginAdmin'),
-                    mini: true,
-                    child: Icon(FontAwesomeIcons.key,size: 15,
-                    ),
+                    // FloatingActionButton(onPressed: ()=>Navigator.pushNamed(context, '/Guide'),
+                    // mini: true,
+                    // child: Icon(FontAwesomeIcons.bookReader,size: 15,
+                    // ),
+                    // tooltip: "Guide",
+                    // ),
+                    FloatingActionButton(
+                      onPressed: () =>
+                          Navigator.pushNamed(context, '/LoginAdmin'),
+                      mini: true,
+                      child: Icon(
+                        FontAwesomeIcons.key,
+                        size: 15,
+                      ),
+                      tooltip: "Admin",
                     )
                   ],
                 ),
@@ -110,8 +123,9 @@ class _LoginUserState extends State<LoginUser> {
               child: TextField(
                 focusNode: focUsername,
                 controller: tecUsername,
-                onSubmitted: (value) => FocusScope.of(context).requestFocus(focPassword),
-               textInputAction: TextInputAction.next, 
+                onSubmitted: (value) =>
+                    FocusScope.of(context).requestFocus(focPassword),
+                textInputAction: TextInputAction.next,
                 keyboardType: TextInputType.number,
                 onChanged: (String value) {},
                 cursorColor: Colors.deepOrange,
@@ -165,27 +179,54 @@ class _LoginUserState extends State<LoginUser> {
           SizedBox(
             height: 25,
           ),
-          Padding(
-              padding: EdgeInsets.symmetric(horizontal: 32),
-              child: Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.all(Radius.circular(100)),
-                  color: Colors.deepOrange,
-                ),
-                child: FlatButton(
-                  child: Text(
-                    "Login",
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.w700,
-                        fontSize: 18),
-                  ),
-                  onPressed: () => login(),
-                ),
-              )),
-          SizedBox(
-            height: 60
+          Row(
+            children: [
+              Expanded(
+                child: Padding(
+                    padding: EdgeInsets.only(left: 32),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.all(Radius.circular(100)),
+                        color: Colors.deepOrange,
+                      ),
+                      child: FlatButton(
+                        child: Text(
+                          "Guide",
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.w700,
+                              fontSize: 16),
+                        ),
+                        onPressed: () => Navigator.pushNamed(context, '/Guide'),
+                      ),
+                    )),
+              ),
+              SizedBox(
+                width: 10,
+              ),
+              Expanded(
+                child: Padding(
+                    padding: EdgeInsets.only(right: 32),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.all(Radius.circular(100)),
+                        color: Colors.deepOrange,
+                      ),
+                      child: FlatButton(
+                        child: Text(
+                          "Login",
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.w700,
+                              fontSize: 16),
+                        ),
+                        onPressed: () => login(),
+                      ),
+                    )),
+              ),
+            ],
           ),
+          SizedBox(height: 60),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
@@ -219,14 +260,21 @@ class _LoginUserState extends State<LoginUser> {
 
   login() async {
     try {
-      Siswa siswa = await SiswaService().getByNis(tecUsername.text, tecPassword.text);
+      if(tecUsername.text.isEmpty || tecPassword.text.isEmpty){
+        Fluttertoast.showToast(msg: "Harap isi data");
+      }else{
+        Siswa siswa =
+          await SiswaService().getByNis(tecUsername.text, tecPassword.text);
       Navigator.pushReplacementNamed(
-      context,
-      HomeUser.routeName,
-      arguments: siswa,
-    );
+        context,
+        HomeUser.routeName,
+        arguments: siswa,
+      );
+      }
+      
     } catch (e) {
-      print("Nisn atau Password salah! \n"+e.toString());
+      // print("Nisn atau Password salah! \n" + e.toString());
+      Fluttertoast.showToast(msg: "Nisn atau Password salah!");
     }
   }
 }

@@ -216,7 +216,7 @@ class _RegisterState extends State<Register> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               Text(
-                "Sudah punya akun ? ",
+                "Already have an account? ",
                 style: TextStyle(
                     color: Colors.white,
                     fontSize: 12,

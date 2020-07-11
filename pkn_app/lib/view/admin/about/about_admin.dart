@@ -6,7 +6,7 @@ import 'package:pkn_app/server/url.dart' as url;
 
 
 class AboutAdmin extends StatefulWidget {
-  static const routeName = '/PerbaharuiAbout';
+  static const routeName = '/UpdateAbout';
   @override
   _AboutAdminState createState() => _AboutAdminState();
 }

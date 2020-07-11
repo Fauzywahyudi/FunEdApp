@@ -89,14 +89,14 @@ class _DemoPertanyaanState extends State<DemoPertanyaan> {
             });
         },
       ),
-      title: Text("Edit Soal"),
+      title: Text("Edit Question"),
     );
   }
 
   Widget _buildAppBar() {
     return AppBar(
       leading: backIos(Colors.white, context),
-      title: Text("Demo Soal"),
+      title: Text("Question Demo"),
       actions: [
         IconButton(tooltip: "Edit Soal",
           icon: Icon(Icons.edit), onPressed: (){
