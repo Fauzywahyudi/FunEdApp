@@ -23,8 +23,6 @@ class _SubBabDescrUserState extends State<SubBabDescrUser> {
   int jumlah = 0;
   String isi = "";
 
-
-
   @override
   void initState() {
     dataMateri = widget.data;
@@ -46,7 +44,10 @@ class _SubBabDescrUserState extends State<SubBabDescrUser> {
       int indexImages = 0;
       texts = isi.toString().split("@img");
       for (var i = 0; i < texts.length; i++) {
-        widgets.add(Text(texts[i],textAlign: TextAlign.justify,));
+        widgets.add(Text(
+          texts[i],
+          textAlign: TextAlign.justify,
+        ));
         if (jumlah != 0) {
           widgets.add(Container(
               child: Center(
@@ -187,12 +188,12 @@ class _SubBabDescrUserState extends State<SubBabDescrUser> {
             child: Stack(
               children: [
                 Container(
-              width: MediaQuery.of(context).size.width,
-              // padding: EdgeInsets.all(10),
-              child: Image.asset(
-                url.Url.assetImage + "pancasilaOpacity.jpeg",
-                fit: BoxFit.fill,
-              )),
+                    width: MediaQuery.of(context).size.width,
+                    // padding: EdgeInsets.all(10),
+                    child: Image.asset(
+                      url.Url.assetImage + "pancasilaOpacity.jpeg",
+                      fit: BoxFit.fill,
+                    )),
                 SingleChildScrollView(
                   child: Column(
                     children: [
@@ -211,12 +212,12 @@ class _SubBabDescrUserState extends State<SubBabDescrUser> {
             child: Stack(
               children: [
                 Container(
-              width: MediaQuery.of(context).size.width,
-              // padding: EdgeInsets.all(10),
-              child: Image.asset(
-                url.Url.assetImage + "pancasilaOpacity.jpeg",
-                fit: BoxFit.fill,
-              )),
+                    width: MediaQuery.of(context).size.width,
+                    // padding: EdgeInsets.all(10),
+                    child: Image.asset(
+                      url.Url.assetImage + "pancasilaOpacity.jpeg",
+                      fit: BoxFit.fill,
+                    )),
                 SingleChildScrollView(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -226,7 +227,7 @@ class _SubBabDescrUserState extends State<SubBabDescrUser> {
               ],
             ),
           );
-    
+
     // Container(
     //   padding: EdgeInsets.symmetric(horizontal: 10, vertical: 0),
     //   child: Stack(

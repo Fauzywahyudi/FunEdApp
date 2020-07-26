@@ -1,11 +1,13 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:pkn_app/assets/assets.dart';
 import 'package:http/http.dart' as http;
 import 'package:pkn_app/server/url.dart' as url;
 import 'package:pkn_app/view/user/subbab.dart';
+import 'package:pkn_app/view/user/video.dart';
 
 class BabDescribUser extends StatefulWidget {
   final data;
@@ -16,7 +18,6 @@ class BabDescribUser extends StatefulWidget {
 }
 
 class _BabDescribUserState extends State<BabDescribUser> {
-
   TextEditingController tecNamaSubBab = TextEditingController();
   TextEditingController tecIsiSubBab = TextEditingController();
   TextStyle titleStyle = TextStyle(
@@ -38,14 +39,35 @@ class _BabDescribUserState extends State<BabDescribUser> {
   //   );
   // }
 
-  Widget _buildAppBar(){
+  Widget _buildAppBar() {
     return AppBar(
-        leading: backIos(Colors.white, context),
-        title: Text("Bab "+widget.data['bab']),
-      );
+      leading: backIos(Colors.white, context),
+      title: Text("Bab " + widget.data['bab']),
+      actions: [
+        IconButton(
+          icon: Icon(Icons.play_arrow),
+          onPressed: () {
+            if (widget.data['link_video'] == "" || widget.data['bab'] == null) {
+              Fluttertoast.showToast(msg: "Tidak ada Video");
+            } else {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => Video(
+                      bab: widget.data['bab'],
+                      linkVideo: widget.data['link_video'],
+                    ),
+                  ));
+            }
+          },
+          color: Colors.white,
+          tooltip: "Video",
+        )
+      ],
+    );
   }
 
-  Widget _buildBody(){
+  Widget _buildBody() {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
       child: Stack(
@@ -179,12 +201,11 @@ class _BabDescribUserState extends State<BabDescribUser> {
   }
 
   Future<List> getData() async {
-    final result = await http.post(url.Url.home + "getSubBab.php",body: {
-      "id_bab" : widget.data['id_bab'],
+    final result = await http.post(url.Url.home + "getSubBab.php", body: {
+      "id_bab": widget.data['id_bab'],
     });
-    if(mounted){
-      setState(() {
-      });
+    if (mounted) {
+      setState(() {});
     }
     return json.decode(result.body);
   }
@@ -279,7 +300,8 @@ class _BabDescribUserState extends State<BabDescribUser> {
                         padding: const EdgeInsets.all(5.0),
                         child: Text("Oke"),
                         onPressed: () async {
-                          await save(tecNamaSubBab.text, tecIsiSubBab.text,widget.data['id_bab']);
+                          await save(tecNamaSubBab.text, tecIsiSubBab.text,
+                              widget.data['id_bab']);
                         },
                       ),
                     ),
@@ -293,10 +315,83 @@ class _BabDescribUserState extends State<BabDescribUser> {
 
   Future save(String bab, String nama, String idbab) async {
     await http.post(url.Url.home + "addSubBab.php",
-        body: {"nama_subbab": bab, "isi_subbab": nama, "id_bab" : idbab});
+        body: {"nama_subbab": bab, "isi_subbab": nama, "id_bab": idbab});
     Navigator.pop(context);
-    tecNamaSubBab.text="";
-    tecIsiSubBab.text="";
+    tecNamaSubBab.text = "";
+    tecIsiSubBab.text = "";
     setState(() {});
   }
 }
+
+// class Video extends StatelessWidget {
+//   final String urlVideo;
+
+//   const Video({Key key, this.urlVideo}) : super(key: key);
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       body: Container(
+//         child: ChewieListItem(
+//           // url video 2
+//           videoPlayerController: VideoPlayerController.network(
+//             'https://youtu.be/ltnwLJF4f1k',
+//           ),
+//         ),
+//       ),
+//     );
+//   }
+// }
+
+// class ChewieListItem extends StatefulWidget {
+//   final VideoPlayerController videoPlayerController;
+//   final bool looping;
+
+//   ChewieListItem({
+//     @required this.videoPlayerController,
+//     this.looping,
+//     Key key,
+//   }) : super(key: key);
+
+//   @override
+//   _ChewieListItemState createState() => _ChewieListItemState();
+// }
+
+// class _ChewieListItemState extends State<ChewieListItem> {
+//   ChewieController _chewieController;
+
+//   @override
+//   void initState() {
+//     super.initState();
+//     _chewieController = ChewieController(
+//       videoPlayerController: widget.videoPlayerController,
+//       aspectRatio: 16 / 9,
+//       autoInitialize: true,
+//       errorBuilder: (context, errorMessage) {
+//         return Center(
+//           child: Text(
+//             errorMessage,
+//             style: TextStyle(color: Colors.white),
+//           ),
+//         );
+//       },
+//     );
+//   }
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return Padding(
+//       padding: const EdgeInsets.all(8.0),
+//       child: Chewie(
+//         controller: _chewieController,
+//       ),
+//     );
+//   }
+
+//   @override
+//   void dispose() {
+//     super.dispose();
+//     widget.videoPlayerController.dispose();
+//     _chewieController.dispose();
+//   }
+// }
